@@ -13,6 +13,7 @@ services:
     container_name: authentication-app
     build:
       context: authentication-app
+      no_cache: true
     volumes:
       - ./authentication-app:/app/
     environment:
