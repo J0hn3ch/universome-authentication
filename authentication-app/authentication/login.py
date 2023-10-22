@@ -1,16 +1,16 @@
 import flask_login
+from .model.UserModel import User
 
 login_manager = flask_login.LoginManager()
-
-class User(flask_login.UserMixin):
-    def __init__(self, username, active=True):
-        self.username = username
-        self.active = active
 
 users = {}
 
 @login_manager.user_loader
-def user_loader(email):
+def load_user(user_id):
+    return User.get(user_id)
+
+# @login_manager.user_loader
+# def user_loader(email):
     #error = None
     #user = db.execute(
     #    'SELECT * FROM user WHERE username = ?', (username,)
@@ -28,12 +28,12 @@ def user_loader(email):
     
     #flash(error)
 
-    if email not in users:
-        return
+    # if email not in users:
+    #     return
 
-    user = User()
-    user.username = email
-    return user
+    # user = User()
+    # user.username = email
+    # return user
 
 
 @login_manager.request_loader

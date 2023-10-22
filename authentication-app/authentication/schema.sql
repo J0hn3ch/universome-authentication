@@ -15,3 +15,8 @@ CREATE TABLE member (
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     authorized BOOLEAN NOT NULL
 );
+
+INSERT INTO user VALUES (1,'gianluca.carbone','admin');
+INSERT INTO member VALUES (1,'Domenico Leonello','secretary','domenico.leonello', CURRENT_TIMESTAMP, TRUE);
+INSERT INTO member VALUES (2,'Francesco Pullella','newspaper','francesco.pullella', CURRENT_TIMESTAMP, TRUE);
+INSERT INTO member VALUES (3,'Roberta Leone','social','roberta.leone', CURRENT_TIMESTAMP, FALSE);

@@ -24,12 +24,15 @@ def create_app(test_config=None):
         pass
 
     # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
+    @app.route('/')
+    def index():
+        return 'Index Page!'
     
+    # Database Initialization
     from . import db
     db.init_app(app)
+
+    # Database Population
 
     from . import login
     login.init_app_login_manager(app) 

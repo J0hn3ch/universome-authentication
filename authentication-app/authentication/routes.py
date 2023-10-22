@@ -2,6 +2,7 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, abort
 )
 from flask_login import login_user, login_required, logout_user
+from django.utils.http import url_has_allowed_host_and_scheme
 from .view.form.form import LoginForm, RegistrationForm
 
 from .db import get_db
@@ -76,6 +77,8 @@ def settings():
     pass
 
 @lgn.route('/logout')
+@login_required
 def logout():
     logout_user()
+    #return redirect(somewhere)
     return 'Logged out'

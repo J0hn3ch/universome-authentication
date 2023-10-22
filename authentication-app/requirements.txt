@@ -1,4 +1,7 @@
+Django==4.2.6
 flask==2.3.3
+Flask-SQLAlchemy==3.1.1
 Flask-Login==0.6.2
 flask-wtf==1.2.1
+WTForms
 Werkzeug==2.3.7
