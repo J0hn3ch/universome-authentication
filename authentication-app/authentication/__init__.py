@@ -1,4 +1,6 @@
-from flask import Flask
+from flask import Flask, render_template
+from flask_login import LoginManager
+#from flask_bcrypt import Bcrypt
 
 import os
 
@@ -8,7 +10,11 @@ def create_app(test_config=None):
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'universome.sqlite'),
+        SQLALCHEMY_DATABASE_URI="sqlite:///database.db",
+        SQLALCHEMY_TRACK_MODIFICATIONS=True
     )
+    app.debug = True
+    #bcrypt = Bcrypt(app)
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -23,22 +29,28 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # a simple page that says hello
+    # Index page
     @app.route('/')
     def index():
-        return 'Index Page!'
+        return render_template('page/index.html')
     
-    # Database Initialization
+    # Database Initialization > Database population
     from . import db
     db.init_app(app)
 
-    # Database Population
+    # Routes
+    from .routes import auth
+    auth.init_app_login_manager(app)
+    app.register_blueprint(auth.bp)
 
-    from . import login
-    login.init_app_login_manager(app) 
+    #from .routes import members
+    #app.register_blueprint(members.mbr)
 
-    from . import routes
-    app.register_blueprint(routes.lgn)
+    #from . import login
+    #login.init_app_login_manager(app) 
+
+    #from . import routes
+    #app.register_blueprint(routes.lgn)
     #from . import auth
     #app.register_blueprint(auth.bp)
     

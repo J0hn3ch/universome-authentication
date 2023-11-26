@@ -4,7 +4,7 @@ from flask import (
 
 from flask_login import login_user, login_required, logout_user
 
-lgn = Blueprint('auth', __name__, url_prefix='/auth')
+mbr = Blueprint('auth', __name__, url_prefix='/auth')
 
 @mbr.route('/members/<name>')
 @login_required
