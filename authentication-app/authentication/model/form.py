@@ -1,8 +1,10 @@
 from flask_wtf import FlaskForm
 from wtforms import Form, BooleanField, StringField, PasswordField, SubmitField, validators
+from authentication.model.UserModel import User
 
 class LoginForm(FlaskForm):
     #username = StringField('Username')
+    #email = StringField(validators=[InputRequired(), Email(), Length(1, 64)])
     username = StringField(
         validators=[
             validators.InputRequired(),
@@ -14,7 +16,13 @@ class LoginForm(FlaskForm):
             )
         ]
     )
-    password = PasswordField('Password')
+    password = PasswordField(
+        validators=[
+            validators.InputRequired(), 
+            validators.Length(min=8, max=72)
+        ]
+    )
+    remember_me = BooleanField('Remember Me', default=False)
     submit = SubmitField('Submit')
 
 class RegistrationForm(FlaskForm):
@@ -48,3 +56,11 @@ class RegistrationForm(FlaskForm):
         ]
     )
     submit = SubmitField('Submit')
+
+    def validate_email(self, email):
+        if User.query.filter_by(email=email.data).first():
+            raise ValidationError("Email already registered!")
+
+    def validate_uname(self, uname):
+        if User.query.filter_by(username=username.data).first():
+            raise ValidationError("Username already taken!")

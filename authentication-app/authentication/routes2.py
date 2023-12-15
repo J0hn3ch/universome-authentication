@@ -70,15 +70,3 @@ def login():
                 return abort(400)
 
             return redirect(next or url_for('index'))
-
-@lgn.route("/settings")
-@login_required
-def settings():
-    pass
-
-@lgn.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    #return redirect(somewhere)
-    return 'Logged out'

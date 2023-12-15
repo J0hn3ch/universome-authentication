@@ -132,3 +132,45 @@ html {
     align-self: start;
     min-width: 10em;
   }
+
+  /* ---[ Base ]--- */
+
+  /* Brand Logo */
+  #brand-logo-container {
+    max-width: 100%;
+  }
+
+  #brand-logo-wrapper {
+    max-width: 30%;
+    margin: 0 auto;
+    padding: 10px;
+    border-bottom-style: solid;
+    border-bottom-color: orange;
+    border-bottom-width: thick;
+  }
+  /* Horizontal align center: https://stackoverflow.com/questions/15376634/how-can-i-center-a-div-within-another-div */
+
+  #brand-logo-container a img {
+    width: 100%;
+  }
+
+  /* ---[ About Us ]--- */
+  .card-container {
+    width: 180px;
+    height: 300px;
+
+    border: solid 1px orange;
+    border-radius: 5%;
+  }
+
+  .card-wrapper {
+    text-align: center;
+  }
+
+  .card-wrapper__social {
+    display: inline-flex;
+  }
+
+  .card-wrapper__social ul li{
+    display: inline-flex;
+  }

@@ -2,13 +2,22 @@
 <html lang="it-IT">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>{% block title %}{% endblock %} - UniVersoMe</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Bulma CSS Framework <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" /> -->
+    
   </head>
   <body>
     <header>
       <!-- Logo -->
+      <div id="brand-logo-container" class="">
+        <div id="brand-logo-wrapper" class="">
+          <a href="/"> <img src="{{ url_for('static', filename='assets/logo-universome-scuro-crop.png')}}" alt=" "/> </a>
+        </div>
+      </div>
       {% block header %}{% endblock %}
     </header>
     <nav>

@@ -47,10 +47,16 @@ lettura. I membri
 Use BCrypt module from Flask Extension
 
 # 4. Deployment
+* [uWSGI] (https://en.wikipedia.org/wiki/UWSGI)
+
 ## 4.1 Threaded mode
 * [Enable Threaded mode](https://stackoverflow.com/questions/38876721/handle-flask-requests-concurrently-with-threaded-true)
 
+
 # Miscellaneous
+## Flask
+1. Important: [Application Context](https://flask.palletsprojects.com/en/2.3.x/appcontext/)
+
 ## Database
 1. [DB Browser for SQLite] (https://sqlitebrowser.org/)
 
@@ -62,8 +68,15 @@ Use BCrypt module from Flask Extension
 ## App
 1. **Python**:
     a. File ```__init__.py```: [https://betterstack.com/community/questions/what-is-init-py-for/](https://betterstack.com/community/questions/what-is-init-py-for/)
+    b. The Try, Except and Finally block: [https://medium.com/analytics-vidhya/do-you-really-understand-try-finally-in-python-110cee4c1a8](https://medium.com/analytics-vidhya/do-you-really-understand-try-finally-in-python-110cee4c1a8)
 2. **Flask**:
     * [https://auth0.com/blog/best-practices-for-flask-api-development/](https://auth0.com/blog/best-practices-for-flask-api-development/)
     * [https://auth0.com/blog/developing-restful-apis-with-python-and-flask/](https://auth0.com/blog/developing-restful-apis-with-python-and-flask/)
 3. **Flask-Login**: [https://flask-login.readthedocs.io/en/latest/](https://flask-login.readthedocs.io/en/latest/)
 4. **Flask-Bcrypt**: [https://flask-bcrypt.readthedocs.io/en/1.0.1/index.html](https://flask-bcrypt.readthedocs.io/en/1.0.1/index.html)
+5. **WTForms - Crash course**: [https://wtforms.readthedocs.io/en/3.0.x/crash_course/](https://wtforms.readthedocs.io/en/3.0.x/crash_course/)
+
+## Tutorials
+1. [Add authentication to your app with Flask-Login](https://www.digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login)
+2. [How to authenticate users in Flask](https://www.freecodecamp.org/news/how-to-authenticate-users-in-flask/)
+3. [How Flask-Login works](https://stackoverflow.com/questions/12075535/flask-login-cant-understand-how-it-works)

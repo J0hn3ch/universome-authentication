@@ -1,4 +1,6 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %}à
+
+{% block title %} {{ title }}{% endblock %}
 
 {% block header %}
 <nav>
@@ -9,6 +11,7 @@
       {% else %}
         <li><a href="{{ url_for('auth.register') }}">Register</a>
         <li><a href="{{ url_for('auth.login') }}">Log In</a>
+        <li><a href="{{ url_for('main.about_us') }}">About Us</a>
       {% endif %}
     </ul>
 </nav>

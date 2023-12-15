@@ -16,6 +16,9 @@ def create_app(test_config=None):
     app.debug = True
     #bcrypt = Bcrypt(app)
 
+    #global DATABASE
+    #DATABASE = os.path.join(app.instance_path, 'universome.sqlite')
+
     if test_config is None:
         # load the instance config, if it exists, when not testing
         app.config.from_pyfile('config.py', silent=True)
@@ -28,17 +31,19 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
-
-    # Index page
-    @app.route('/')
-    def index():
-        return render_template('page/index.html')
     
     # Database Initialization > Database population
     from . import db
     db.init_app(app)
 
-    # Routes
+    # APIs
+    #from .api import
+
+    # Main Blueprint
+    from .routes.main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
+
+    # Authentication Blueprint
     from .routes import auth
     auth.init_app_login_manager(app)
     app.register_blueprint(auth.bp)

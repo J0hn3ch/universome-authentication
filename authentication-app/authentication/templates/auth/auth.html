@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Sign In / Sign Up{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <form action="{{ request.path }}" method="POST" class="">
+        {{ form.csrf_token }}
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {{ form.username(class_="form-control", placeholder="Username") }}
+        {% for error in form.username.errors %}
+            {{ error }}
+        {% endfor %}
+        
+        {% if request.path == '/auth/register' %}
+            {{ form.email(class_="form-control",placeholder="Email")}}
+            {% for error in form.email.errors %}
+                {{ error }}
+            {% endfor %}
+        {% endif %}
+
+        <p> {{ form.password(class_="form-control",placeholder="Password")}}
+        {% for error in form.password.errors %}
+            {{ error }}
+        {% endfor %} </p>
+
+        <p>
+        {% if request.path == '/auth/login' %}
+            {{ form.remember_me(class_="form-control") }} Remember Me
+        {% endif %} </p>
+
+        {% if request.path == '/auth/register' %}
+        
+            {{ form.confirm_password(class_="form-control", placeholder="Confirm Password") }}
+            {% for error in form.confirm_password.errors %}
+                {{ error }}
+            {% endfor %}
+
+        {% endif %}
+        
+        {{ form.submit(class_="form-control", placeholder="Submit")}}
+
+        <p>
+            {% if request.path != '/auth/register' %}
+                New here? <a href="{{url_for('auth.register')}}">Create account</a>
+            {% else %}
+                Already have an account? <a href="{{url_for('auth.login')}}">Login</a>
+            {% endif %}
+        </p>
+    </form>
+
+{% endblock %}
