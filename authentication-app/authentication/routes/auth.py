@@ -1,6 +1,6 @@
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, flash, current_app, g, redirect, render_template, request, session, url_for
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 from authentication.model.form import LoginForm, RegistrationForm
@@ -12,13 +12,10 @@ login_manager = LoginManager()
 login_manager.session_protection = "strong"
 login_manager.login_view = "auth.login"
 login_manager.login_message_category = "info"
+#login_manager.init_app(current_app)
 
 def init_app_login_manager(app=None):
     return login_manager.init_app(app)
-
-@login_manager.user_loader
-def load_user(user_id):
-    return UserController.getUserById(int(user_id))
 
 @bp.route("/login", methods=['GET','POST'])
 def login():
@@ -95,3 +92,41 @@ def signup():
 def logout():
     logout_user()
     return redirect(url_for('auth.login'))
+
+@login_manager.user_loader
+def load_user(user_id):
+    return UserController.getUserById(int(user_id))
+
+@login_manager.request_loader
+def request_loader(request):
+    pass
+
+@login_manager.unauthorized_handler
+def unauthorized_handler():
+    return 'Unauthorized', 401
+
+# @login_manager.user_loader
+# def user_loader(email):
+    #error = None
+    #user = db.execute(
+    #    'SELECT * FROM user WHERE username = ?', (username,)
+    #).fetchone()
+
+    #if user is None:
+    #    error = 'Incorrect username.'
+    #elif not check_password_hash(user['password'], password):
+    #    error = 'Incorrect password.'
+    
+    #if error is None:
+    #    session.clear()
+    #    session['user_id'] = user['id']
+    #    return redirect(url_for('index'))
+    
+    #flash(error)
+
+    # if email not in users:
+    #     return
+
+    # user = User()
+    # user.username = email
+    # return user

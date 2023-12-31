@@ -41,7 +41,6 @@ Un profilo con ruolo "Terminale" è un profilo assegnato ad un dispositivo che p
 Per ogni dispositivo distribuito all'interno degli spazi dell'ateneo, questo verrà configurato con un profilo autorizzato solo alla
 lettura. I membri
 
-
 # 3. Security
 ## 3.1 Password Hashing
 Use BCrypt module from Flask Extension
@@ -52,13 +51,14 @@ Use BCrypt module from Flask Extension
 ## 4.1 Threaded mode
 * [Enable Threaded mode](https://stackoverflow.com/questions/38876721/handle-flask-requests-concurrently-with-threaded-true)
 
-
 # Miscellaneous
 ## Flask
 1. Important: [Application Context](https://flask.palletsprojects.com/en/2.3.x/appcontext/)
+2. Dinamyc HTML Page: [JavaScript, fetch, and JSON - Flask](https://flask.palletsprojects.com/en/2.3.x/patterns/javascript/)
 
 ## Database
 1. [DB Browser for SQLite] (https://sqlitebrowser.org/)
+2. [Database Connection and Cursor closing] (https://www.quora.com/What-is-the-difference-between-cursor-and-connection-when-performing-operations-on-databases)
 
 # Error encountered
 1. ```ImportError: cannot import name 'url_decode' from 'werkzeug.urls' (/opt/venv/lib/python3.10/site-packages/werkzeug/urls.py)```
@@ -74,9 +74,24 @@ Use BCrypt module from Flask Extension
     * [https://auth0.com/blog/developing-restful-apis-with-python-and-flask/](https://auth0.com/blog/developing-restful-apis-with-python-and-flask/)
 3. **Flask-Login**: [https://flask-login.readthedocs.io/en/latest/](https://flask-login.readthedocs.io/en/latest/)
 4. **Flask-Bcrypt**: [https://flask-bcrypt.readthedocs.io/en/1.0.1/index.html](https://flask-bcrypt.readthedocs.io/en/1.0.1/index.html)
-5. **WTForms - Crash course**: [https://wtforms.readthedocs.io/en/3.0.x/crash_course/](https://wtforms.readthedocs.io/en/3.0.x/crash_course/)
+5. **Flask-WTF - Documentation** [https://flask-wtf.readthedocs.io/en/1.2.x/quickstart/](https://flask-wtf.readthedocs.io/en/1.2.x/quickstart/)
+6. **WTForms - Crash course**: [https://wtforms.readthedocs.io/en/3.0.x/crash_course/](https://wtforms.readthedocs.io/en/3.0.x/crash_course/)
+7. **PySerial - Documentation**: [https://pyserial.readthedocs.io/en/latest/](https://pyserial.readthedocs.io/en/latest/)
+
+## Environment
+1. Baud rate: [Common Baud rate](https://lucidar.me/en/serialib/most-used-baud-rates-table/)
+2. TTY: [Keep TTY open in Docker](https://kossy0701.medium.com/what-is-tty-true-in-docker-compose-yml-47a72891aee2)
+3. dmesg: Operation not permitted: [Privileged Docker container](https://stackoverflow.com/questions/41178553/docker-how-to-avoid-operation-not-permitted-in-docker-container)
+
+## Container
+1. Docker Compose Flask Sample: [https://github.com/docker/awesome-compose/tree/master/flask](https://github.com/docker/awesome-compose/tree/master/flask)
 
 ## Tutorials
+
+### Project structure
+1. [How to structure Flask project](https://www.reddit.com/r/flask/comments/vttloi/af_how_am_i_supposed_to_structure_my_flask_project/)
+
+### Flask-Login
 1. [Add authentication to your app with Flask-Login](https://www.digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login)
 2. [How to authenticate users in Flask](https://www.freecodecamp.org/news/how-to-authenticate-users-in-flask/)
 3. [How Flask-Login works](https://stackoverflow.com/questions/12075535/flask-login-cant-understand-how-it-works)

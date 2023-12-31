@@ -51,9 +51,6 @@ def create_app(test_config=None):
     #from .routes import members
     #app.register_blueprint(members.mbr)
 
-    #from . import login
-    #login.init_app_login_manager(app) 
-
     #from . import routes
     #app.register_blueprint(routes.lgn)
     #from . import auth

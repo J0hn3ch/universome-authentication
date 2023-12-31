@@ -1,5 +1,7 @@
 from flask import (Blueprint, render_template)
 from flask_login import login_required, current_user
+from authentication.controller.MemberController import MemberController
+from serial import Serial
 
 main = Blueprint('main', __name__, url_prefix='/')
 
@@ -16,7 +18,22 @@ def about_us():
 @main.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('dashboard/dashboard.html', title="Dashboard", username=current_user.username)
+    member_controller = MemberController()
+    members = member_controller.getMember()
+    return render_template('dashboard/dashboard.html', title="Dashboard", username=current_user.username, members=members)
+
+@main.route('/serial')
+def serial():
+    #ser = Serial('/dev/ttyS1', 115200)  # open serial port
+    with Serial('/dev/ttyS1', 115200, timeout=1) as ser:
+        ser_name = ser.name
+        if not ser.is_open:
+            ser.open()
+        print("Serial name, is open? ", ser.is_open)
+        ser.write(b'CIAO MONDO!')     # write a string
+        message = ser.readline()
+    print("Message: ", message)
+    return render_template('page/serial.html', title="Serial", ser_name=ser_name, message=message)
 
 @main.route('/settings')
 @login_required

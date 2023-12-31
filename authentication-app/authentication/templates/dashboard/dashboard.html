@@ -7,4 +7,37 @@
 {% block content %}
     <h2> Benvenuto, {{ username }}</h2>
     <a href="{{url_for('auth.logout')}}"> Log out </a>
+
+    <h3> Membri di UniVersoMe </h3>
+    <div id="members-container">
+        <div id="members-wrapper">
+            {% for member in members %}
+            <div class="member-card__container">
+                <div class="member-card__wrapper">
+                    <div class="member-card__avatar"></div>
+                    <div class="member-card__bio">
+                        <h3> {{ member[1]}} </h3>
+                        <h4> {{ member[2]}} </h4>
+                    </div>
+                    <div class="member-card__info">
+                        <span class="member-card__authorized">
+                        {% if member[5] %}
+                        Access granted
+                        {% else %}
+                        Access denied
+                        {% endif %}
+                        </span>
+                    </div>
+                    <div class="member-card__settings">
+                        <ul>
+                            <li>Info</li>
+                            <li>Edit</li>
+                            <li>Delete</li>
+                        </ul>
+                    </div>
+                </div>
+            </div> 
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

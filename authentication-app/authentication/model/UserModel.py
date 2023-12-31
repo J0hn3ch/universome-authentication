@@ -46,7 +46,9 @@ class User(UserMixin):
                if cur:
                     print("UserModel: Query executed!")
                record = result.fetchone()
-               db.close()
+
+               cur.close()
+               #db.close()
           except Exception as e:
                raise e
           else:
@@ -73,11 +75,11 @@ class User(UserMixin):
                results = cur.execute(query, str(user_id))
                record = results.fetchone()
                
-               print(record)
                if record is not None:
                     user = User(int(record[0]), record[1], record[2])
                
-               db.close()
+               cur.close()
+               #db.close()
                return user
 
      @staticmethod
@@ -106,11 +108,3 @@ def insertUser(username,password):
     cur.execute("INSERT INTO users (username,password) VALUES (?,?)", (username,password))
     con.commit()
     con.close()
-
-def retrieveUsers():
-	con = sqlite3.connect("database.db")
-	cur = con.cursor()
-	cur.execute("SELECT username, password FROM users")
-	users = cur.fetchall()
-	con.close()
-	return users

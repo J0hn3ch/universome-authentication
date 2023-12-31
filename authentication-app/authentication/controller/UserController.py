@@ -1,7 +1,3 @@
-from flask import Flask
-from flask import render_template, url_for, flash, request, redirect, Response
-import sqlite3
-from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from authentication.model.UserModel import User
 
 class UserController:
