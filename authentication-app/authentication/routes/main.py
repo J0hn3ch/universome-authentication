@@ -25,13 +25,16 @@ def dashboard():
 @main.route('/serial')
 def serial():
     #ser = Serial('/dev/ttyS1', 115200)  # open serial port
-    with Serial('/dev/ttyS1', 115200, timeout=1) as ser:
+    with Serial('/dev/ttyS1', 115200, timeout=3) as ser:
         ser_name = ser.name
         if not ser.is_open:
             ser.open()
         print("Serial name, is open? ", ser.is_open)
-        ser.write(b'CIAO MONDO!')     # write a string
-        message = ser.readline()
+        ser.write(b'CIAO')     # write a string
+        ser.close()
+        ser.open()
+        message = ser.read(5).decode('utf-8')
+        ser.close()
     print("Message: ", message)
     return render_template('page/serial.html', title="Serial", ser_name=ser_name, message=message)
 
