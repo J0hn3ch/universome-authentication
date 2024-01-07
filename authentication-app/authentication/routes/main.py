@@ -1,12 +1,16 @@
-from flask import (Blueprint, render_template)
+from flask import (Blueprint, render_template, current_app, request)
 from flask_login import login_required, current_user
+from flask_socketio import SocketIO, emit
 from authentication.controller.MemberController import MemberController
 from serial import Serial
+import threading
 
 main = Blueprint('main', __name__, url_prefix='/')
+#socketio = SocketIO(current_app, cors_allowed_origins='*')
 
 # Index page
 @main.route('/', methods=["GET", "POST"], strict_slashes=False)
+@main.route('/index', methods=["GET", "POST"], strict_slashes=False)
 def index():
     return render_template('page/index.html', title="Home")
 
@@ -22,21 +26,38 @@ def dashboard():
     members = member_controller.getMember()
     return render_template('dashboard/dashboard.html', title="Dashboard", username=current_user.username, members=members)
 
-@main.route('/serial')
-def serial():
-    #ser = Serial('/dev/ttyS1', 115200)  # open serial port
-    with Serial('/dev/ttyS1', 115200, timeout=3) as ser:
+"""
+Thread functions
+"""
+thread = None
+thread_lock = threading.Lock()
+
+def background_thread(app):
+    with Serial(port='/dev/ttyS1', baudrate=115200, timeout=1) as ser:
         ser_name = ser.name
+        app.logger.info('==== Start listener at %s ====', ser_name)
+        
         if not ser.is_open:
             ser.open()
-        print("Serial name, is open? ", ser.is_open)
-        ser.write(b'CIAO')     # write a string
-        ser.close()
-        ser.open()
-        message = ser.read(5).decode('utf-8')
-        ser.close()
-    print("Message: ", message)
-    return render_template('page/serial.html', title="Serial", ser_name=ser_name, message=message)
+        
+        print("Serial name", ser_name, "is open? ", ser.is_open)
+        try:
+            while True:
+                # Read raw data from the stream
+                # Convert the binary string to a normal string
+                # Remove the trailing newline character
+                # message = ser.read(5).decode('utf-8')
+                message = ser.readline().decode().rstrip()
+                print(f'Message: {message}')
+        finally:
+            ser.close()
+
+@main.route('/serial')
+def serial():
+    #threading.Thread(target=background_thread()).start()
+    x = threading.Thread(target=background_thread, args=(current_app), daemon=True)
+    x. start()
+    return render_template('page/serial.html', title="Serial")
 
 @main.route('/settings')
 @login_required

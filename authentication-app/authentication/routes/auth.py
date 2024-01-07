@@ -26,7 +26,7 @@ def login():
             return redirect(url_for('main.dashboard'))        
         return render_template('auth/auth.html', title='Login', form=form)
 
-    if request.method == 'POST':
+    elif request.method == 'POST':
         if current_user.is_authenticated:
             return redirect(url_for('main.dashboard'))
         
@@ -46,14 +46,18 @@ def login():
                 user = user_controller.login()
 
                 if user is not None:
-                    #login_user(user)
+
                     flash('Logged in successfully.', 'success')
                     login_user(user, remember=remember)
                     return redirect(url_for('main.dashboard'))
-                    #return "Username and Password are correct! " + s
                 else:
                     flash("Invalid Username or password!", "danger")
                     return redirect(url_for('auth.login')) # if the user doesn't exist or password is wrong, reload the page
+                
+                #next = request.args.get('next')
+                #if not url_has_allowed_host_and_scheme(next, request.host):
+                #    return abort(400)
+                #return redirect(next or url_for('index'))
             except Exception as e:
                 flash(e, "danger")
         
@@ -68,7 +72,7 @@ def register():
     if request.method == 'GET':        
         return render_template('auth/auth.html', title='Registration', form=form)
     
-    if request.method == 'POST':
+    elif request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         error = None
@@ -81,7 +85,20 @@ def register():
         if form.validate_on_submit():
             # Hashing password
             s = form.username.data + " " + form.password.data
-            return "Registration" + s
+            """
+            if error is None:
+                try:
+                    #db.execute("INSERT INTO user (username, password) VALUES (?, ?)",(username, generate_password_hash(password)),)
+                    #db.commit()
+                    pass
+                except db.IntegrityError:
+                    error = f"User {username} is already registered."
+                else:
+                    return redirect(url_for("auth.login"))
+            else:
+                flash(error)
+            """
+            return render_template('auth/register.html')
         
 @bp.route('/signup')
 def signup():

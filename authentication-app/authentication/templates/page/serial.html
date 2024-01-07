@@ -6,7 +6,26 @@
 
 {% block content %}
 <h2> Serial communication</h2>
-<p>Serial name: &emsp; {{ ser_name }}</p>
-<pre> {{ message }} </pre>
+<p>Serial name: &emsp; /dev/ttyS1</p>
+<pre> </pre>
+
+<div class="member-card__container">
+    <div class="member-card__wrapper">
+        <div class="member-card__avatar"></div>
+        <div class="member-card__bio">
+            <h3 class="member-card__name"> Gianluca Carbone </h3>
+            <h4 class="member-card__role"> Coordinator </h4>
+        </div>
+        <div class="member-card__info">
+            <span class="member-card__authorized">
+            {% if True %}
+            Access granted
+            {% else %}
+            Access denied
+            {% endif %}
+            </span>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

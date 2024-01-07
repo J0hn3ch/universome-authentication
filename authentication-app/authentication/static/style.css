@@ -16,6 +16,7 @@ html {
 
   main {
     background: white;
+    padding: 3px
   }
 
   footer {
@@ -177,44 +178,44 @@ html {
     margin: 10px 20px 10px 20px;
   }
 
-  .member-card__container {
-    background-color: #eeeeee;
+  /* ---[ Members list ]--- */
+
+  .member-list__container {
+    background-color: #275ec4;
     margin-bottom: 10px;
     border-radius: 5px;
     overflow: auto;
   }
 
-  .member-card__wrapper {
+  .member-list__wrapper {
     display: flex;
     margin: 5px 5px 5px 5px;
-    justify-content: space-between;
-
   }
 
-  .member-card__avatar {
+  .member-list__avatar {
     background-color: aqua;
     width: 25%;
     max-height: 100%;
   }
 
-  .member-card__bio {
+  .member-list__bio {
     width: 25%;
   }
 
   /* https://github.com/w3c/csswg-drafts/issues/1008 */
-  .member-card__bio h3, h4{
+  .member-list__bio h3, .member-list__bio h4{
     margin: 0;
     color: #333333;
   }
 
   /* Vertical align: http://phrogz.net/CSS/vertical-align/index.html 
      Vertical centering a div inside another div: https://stackoverflow.com/questions/6490252/vertically-centering-a-div-inside-another-div*/
-  .member-card__info{
+  .member-list__info{
     width: 25%;
     position: relative;
   }
 
-  .member-card__info span{
+  .member-list__info span{
     position: absolute;
     margin: 0;
     top: 50%;
@@ -222,20 +223,72 @@ html {
     transform: translateY(-50%);
   }
 
-  .member-card__settings {
+  .member-list__settings {
     background-color: ivory;
     width: 25%;
     display: inline-block;
   }
 
-  .member-card__settings ul {
+  .member-list__settings ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
   }
 
-  .member-card__settings ul li{
+  .member-list__settings ul li{
     display: inline;
+  }
+
+  /* ---[ Members card ]--- */
+
+  .member-card__container {
+    background-color: #d8d8d8;
+    padding: 2px;
+    margin: 10px 20px 10px 20px;
+    border-radius: 5px;
+  }
+
+  .member-card__wrapper {
+    display: block;
+    margin: 5px 5px 5px 5px;
+    text-align: center;
+  }
+
+  .member-card__avatar {
+    background-color: aqua;
+    display: block;
+    height: 100px;
+  }
+
+  .member-card__bio {
+    display: block;
+  }
+
+  /* https://github.com/w3c/csswg-drafts/issues/1008 */
+  .member-card__bio h3{
+    color: #333333;
+  }
+
+  .member-card__bio h4{
+    color: #555555;
+  }
+
+  /* Vertical align: http://phrogz.net/CSS/vertical-align/index.html 
+      Vertical centering a div inside another div: https://stackoverflow.com/questions/6490252/vertically-centering-a-div-inside-another-div*/
+  .member-card__info{
+    display: inline-block;
+    padding: 1px;
+  }
+
+  .member-card__info span{
+    top: 50%;
+  }
+
+  .member-card__authorized {
+    background-color: #01bd01;
+    padding: 5px 5px 5px 5px;
+    border: 2px solid #029e02;
+    color: white;
   }
 
   /* ---[ About Us ]--- */

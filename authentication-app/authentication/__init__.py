@@ -1,14 +1,16 @@
 from flask import Flask, render_template
 from flask_login import LoginManager
 #from flask_bcrypt import Bcrypt
+from flask_socketio import SocketIO, emit
 
 import os
+from serial import Serial
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        SECRET_KEY='dev',
+        SECRET_KEY='universome',
         DATABASE=os.path.join(app.instance_path, 'universome.sqlite'),
         SQLALCHEMY_DATABASE_URI="sqlite:///database.db",
         SQLALCHEMY_TRACK_MODIFICATIONS=True
@@ -47,6 +49,27 @@ def create_app(test_config=None):
     from .routes import auth
     auth.init_app_login_manager(app)
     app.register_blueprint(auth.bp)
+
+    socketio = SocketIO(app, cors_allowed_origins='*')
+    """
+    Decorator for connect
+    """
+    @socketio.on('connect')
+    def connect():
+        global thread
+        print('Client connected')
+
+        global thread
+        with thread_lock:
+            if thread is None:
+                thread = socketio.start_background_task(background_thread)
+
+    """
+    Decorator for disconnect
+    """
+    @socketio.on('disconnect')
+    def disconnect():
+        print('Client disconnected',  request.sid)
 
     #from .routes import members
     #app.register_blueprint(members.mbr)

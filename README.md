@@ -62,31 +62,45 @@ Use BCrypt module from Flask Extension
 
 # Error encountered
 1. ```ImportError: cannot import name 'url_decode' from 'werkzeug.urls' (/opt/venv/lib/python3.10/site-packages/werkzeug/urls.py)```
-2. 
+2. ```sqlite3.OperationalError: attempt to write a readonly database``` Solution: ```RUN chown ${UID}:${UID} instance -R``` in _Dockerfile_
 
 # Guides and resources
+
 ## App
 1. **Python**:
-    a. File ```__init__.py```: [https://betterstack.com/community/questions/what-is-init-py-for/](https://betterstack.com/community/questions/what-is-init-py-for/)
-    b. The Try, Except and Finally block: [https://medium.com/analytics-vidhya/do-you-really-understand-try-finally-in-python-110cee4c1a8](https://medium.com/analytics-vidhya/do-you-really-understand-try-finally-in-python-110cee4c1a8)
+    * File ```__init__.py```: [https://betterstack.com/community/questions/what-is-init-py-for/](https://betterstack.com/community/questions/what-is-init-py-for/)
+    * The Try, Except and Finally block: [https://medium.com/analytics-vidhya/do-you-really-understand-try-finally-in-python-110cee4c1a8](https://medium.com/analytics-vidhya/do-you-really-understand-try-finally-in-python-110cee4c1a8)
 2. **Flask**:
     * [https://auth0.com/blog/best-practices-for-flask-api-development/](https://auth0.com/blog/best-practices-for-flask-api-development/)
     * [https://auth0.com/blog/developing-restful-apis-with-python-and-flask/](https://auth0.com/blog/developing-restful-apis-with-python-and-flask/)
+    * make_response() Docs: [https://tedboy.github.io/flask/generated/flask.make_response.html](https://tedboy.github.io/flask/generated/flask.make_response.html)
 3. **Flask-Login**: [https://flask-login.readthedocs.io/en/latest/](https://flask-login.readthedocs.io/en/latest/)
 4. **Flask-Bcrypt**: [https://flask-bcrypt.readthedocs.io/en/1.0.1/index.html](https://flask-bcrypt.readthedocs.io/en/1.0.1/index.html)
 5. **Flask-WTF - Documentation** [https://flask-wtf.readthedocs.io/en/1.2.x/quickstart/](https://flask-wtf.readthedocs.io/en/1.2.x/quickstart/)
 6. **WTForms - Crash course**: [https://wtforms.readthedocs.io/en/3.0.x/crash_course/](https://wtforms.readthedocs.io/en/3.0.x/crash_course/)
 7. **PySerial - Documentation**: [https://pyserial.readthedocs.io/en/latest/](https://pyserial.readthedocs.io/en/latest/)
+8. **Server-Sent Event**: [https://dev.to/cloudx/backend-to-frontend-communication-with-server-sent-events-56kf](https://dev.to/cloudx/backend-to-frontend-communication-with-server-sent-events-56kf)
+9. **Flask-SSE**: [https://flask-sse.readthedocs.io/en/latest/quickstart.html](https://flask-sse.readthedocs.io/en/latest/quickstart.html)
+
+## Database
+1. Timestamp: [https://dev.mysql.com/doc/refman/8.0/en/timestamp-initialization.html](https://dev.mysql.com/doc/refman/8.0/en/timestamp-initialization.html)
 
 ## Environment
-1. Baud rate: [Common Baud rate](https://lucidar.me/en/serialib/most-used-baud-rates-table/)
-2. TTY: [Keep TTY open in Docker](https://kossy0701.medium.com/what-is-tty-true-in-docker-compose-yml-47a72891aee2)
-3. dmesg: Operation not permitted: [Privileged Docker container](https://stackoverflow.com/questions/41178553/docker-how-to-avoid-operation-not-permitted-in-docker-container)
+1. Virtual environment and container: [https://stackoverflow.com/questions/48561981/activate-python-virtualenv-in-dockerfile](https://stackoverflow.com/questions/48561981/activate-python-virtualenv-in-dockerfile)
+2. Baud rate: [Common Baud rate](https://lucidar.me/en/serialib/most-used-baud-rates-table/)
+3. TTY: [Keep TTY open in Docker](https://kossy0701.medium.com/what-is-tty-true-in-docker-compose-yml-47a72891aee2)
+4. dmesg: Operation not permitted: [Privileged Docker container](https://stackoverflow.com/questions/41178553/docker-how-to-avoid-operation-not-permitted-in-docker-container)
+5. Permission problems in TTY from Docker to RaspberryOS
 
 ## Container
-1. Docker Compose Flask Sample: [https://github.com/docker/awesome-compose/tree/master/flask](https://github.com/docker/awesome-compose/tree/master/flask)
+1. Docker installation (for RPi 3B+ with aarch64, 64bit RaspberryOS): [https://docs.docker.com/engine/install/debian/](https://docs.docker.com/engine/install/debian/)
+2. Docker Compose Flask Sample: [https://github.com/docker/awesome-compose/tree/master/flask](https://github.com/docker/awesome-compose/tree/master/flask)
 
-## Tutorials
+## Hardware
+1. Logic Level Shifter / Converter
+    * Fake LLS[https://forum.arduino.cc/t/logic-level-shifter-problem/1138650](https://forum.arduino.cc/t/logic-level-shifter-problem/1138650)
+
+# Tutorials
 
 ### Project structure
 1. [How to structure Flask project](https://www.reddit.com/r/flask/comments/vttloi/af_how_am_i_supposed_to_structure_my_flask_project/)
