@@ -31,6 +31,7 @@ La Home page dell'applicativo conterrà un messaggio di Benvenuto, con una sezio
 La dashboard dell'amministratore, consente la registrazione di nuovi utenti al sistema, o nuovi terminali.
 
 ## 2.3 Profilo utente
+APPROCCIO SHAZAM: Il client invia una richiesta al server che si desidera avvicinare un Tag RFID e rimane in attesa della risposta dal server per la convalida.
 
 ## 2.3.1 Utente normale
 Un profili "Utente normale" è un profilo assegnato ad un soggetto, membro del progetto, che darà la possibilità di aggiornare, modificare e cancellare le proprie informazioni dal sistema.
@@ -74,6 +75,7 @@ Use BCrypt module from Flask Extension
     * [https://auth0.com/blog/best-practices-for-flask-api-development/](https://auth0.com/blog/best-practices-for-flask-api-development/)
     * [https://auth0.com/blog/developing-restful-apis-with-python-and-flask/](https://auth0.com/blog/developing-restful-apis-with-python-and-flask/)
     * make_response() Docs: [https://tedboy.github.io/flask/generated/flask.make_response.html](https://tedboy.github.io/flask/generated/flask.make_response.html)
+
 3. **Flask-Login**: [https://flask-login.readthedocs.io/en/latest/](https://flask-login.readthedocs.io/en/latest/)
 4. **Flask-Bcrypt**: [https://flask-bcrypt.readthedocs.io/en/1.0.1/index.html](https://flask-bcrypt.readthedocs.io/en/1.0.1/index.html)
 5. **Flask-WTF - Documentation** [https://flask-wtf.readthedocs.io/en/1.2.x/quickstart/](https://flask-wtf.readthedocs.io/en/1.2.x/quickstart/)

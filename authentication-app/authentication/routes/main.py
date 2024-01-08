@@ -4,6 +4,7 @@ from flask_socketio import SocketIO, emit
 from authentication.controller.MemberController import MemberController
 from serial import Serial
 import threading
+import time
 
 main = Blueprint('main', __name__, url_prefix='/')
 #socketio = SocketIO(current_app, cors_allowed_origins='*')
@@ -42,21 +43,29 @@ def background_thread(app):
         
         print("Serial name", ser_name, "is open? ", ser.is_open)
         try:
+            ser.reset_input_buffer()
             while True:
-                # Read raw data from the stream
-                # Convert the binary string to a normal string
-                # Remove the trailing newline character
-                # message = ser.read(5).decode('utf-8')
-                message = ser.readline().decode().rstrip()
-                print(f'Message: {message}')
+                time.sleep(0.01)
+                if ser.in_waiting > 0:
+                    line = ser.readline() # Read raw data from the stream
+                    message = line.decode('utf-8') # Convert the binary string to a normal string
+                
+                    # Remove the trailing newline character
+                    # message = ser.read(5).decode('utf-8')
+                    #message = ser.readline().decode().rstrip()
+                    app.logger.info('[RFID UID]: %s', message)
+                    print(f'[RFID UID]: {message}')
+        except KeyboardInterrupt:
+            app.logger.info('Close serial communication')
         finally:
             ser.close()
 
 @main.route('/serial')
 def serial():
     #threading.Thread(target=background_thread()).start()
-    x = threading.Thread(target=background_thread, args=(current_app), daemon=True)
-    x. start()
+    #x = threading.Thread(target=background_thread, args=(current_app), daemon=True)
+    #x.start()
+    background_thread(current_app)
     return render_template('page/serial.html', title="Serial")
 
 @main.route('/settings')

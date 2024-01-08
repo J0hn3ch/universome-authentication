@@ -9,10 +9,10 @@ from authentication.controller.UserController import UserController
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 login_manager = LoginManager()
+login_manager.init_app(current_app)
 login_manager.session_protection = "strong"
 login_manager.login_view = "auth.login"
 login_manager.login_message_category = "info"
-#login_manager.init_app(current_app)
 
 def init_app_login_manager(app=None):
     return login_manager.init_app(app)

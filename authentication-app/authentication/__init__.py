@@ -1,5 +1,4 @@
-from flask import Flask, render_template
-from flask_login import LoginManager
+from flask import Flask
 #from flask_bcrypt import Bcrypt
 from flask_socketio import SocketIO, emit
 
@@ -16,6 +15,7 @@ def create_app(test_config=None):
         SQLALCHEMY_TRACK_MODIFICATIONS=True
     )
     app.debug = True
+    app.app_context().push()
     #bcrypt = Bcrypt(app)
 
     #global DATABASE
