@@ -2,11 +2,12 @@ version: 1.0.0
 services:
   webapp:
     container_name: authentication-app
+    user: "${UID}:${GID}"
     build:
       context: authentication-app
       no_cache: true
     volumes:
-      - ./authentication-app:/app/
+      - ./authentication-app/authentication:/app/authentication
     environment:
       - SERVER_NAME=0.0.0.0
       - FLASK_SERVER_PORT=8000
