@@ -62,6 +62,32 @@ def background_thread(app):
 
 @main.route('/serial')
 def serial():
+    with Serial(port='/dev/ttyACM0', baudrate=115200, timeout=1) as ser:
+        ser_name = ser.name
+        current_app.logger.info('==== Start listener at %s ====', ser_name)
+        
+    if not ser.is_open:
+        ser.open()
+    
+    print("Serial name", ser_name, "is open? ", ser.is_open)
+    try:
+        ser.reset_input_buffer()
+        while True:
+            time.sleep(0.01)
+            if ser.in_waiting > 0:
+                line = ser.readline() # Read raw data from the stream
+                message = line.decode('utf-8') # Convert the binary string to a normal string
+            
+                # Remove the trailing newline character
+                # message = ser.read(5).decode('utf-8')
+                #message = ser.readline().decode().rstrip()
+                current_app.logger.info('[RFID UID]: %s', message)
+                print(f'[RFID UID]: {message}')
+    except KeyboardInterrupt:
+        current_app.logger.info('Close serial communication')
+    finally:
+        ser.close()
+    
     #threading.Thread(target=background_thread()).start()
     #x = threading.Thread(target=background_thread, args=(current_app), daemon=True)
     #x.start()
