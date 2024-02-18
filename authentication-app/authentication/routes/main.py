@@ -34,7 +34,7 @@ thread = None
 thread_lock = threading.Lock()
 
 def background_thread(app):
-    with Serial(port='/dev/ttyS1', baudrate=115200, timeout=1) as ser:
+    with Serial(port='/dev/ttyACM0', baudrate=115200, timeout=1) as ser:
         ser_name = ser.name
         app.logger.info('==== Start listener at %s ====', ser_name)
         
@@ -65,7 +65,7 @@ def serial():
     #threading.Thread(target=background_thread()).start()
     #x = threading.Thread(target=background_thread, args=(current_app), daemon=True)
     #x.start()
-    background_thread(current_app)
+    #background_thread(current_app)
     return render_template('page/serial.html', title="Serial")
 
 @main.route('/settings')

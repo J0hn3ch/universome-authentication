@@ -19,5 +19,9 @@ class MemberController:
         
         #for member in members_list:
             # member: (id(int), 'Full name', 'Role', 'student_id', 'timestamp', authorized(bool))
+    
+    def isAuthorized():
+        pass
 
+    
 

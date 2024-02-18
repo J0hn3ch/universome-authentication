@@ -168,6 +168,11 @@ html {
     width: 100%;
   }
 
+  /* SVG Draw*/
+  .svg-icons {
+    display: none;
+  }
+
   /* ---[ Dashboard ]--- */
   #members-container {
     background-color: #dddddd;
