@@ -16,7 +16,7 @@ class Member():
           return self.id
      
      @staticmethod
-     def get_member(id=None):
+     def get_member(id=None, chip_id=None):
           print("MemberModel: get_member")
           try:
                db = get_db()
@@ -27,9 +27,12 @@ class Member():
                raise e
           else:
                print(type(id))
-               if (id is None):
+               if (id is None and chip_id is None):
                     query = "SELECT * FROM member" #+ "" if (id is None) else "WHERE id=(?)"
                     results = cur.execute(query)
+               elif (chip_id is not None):
+                    query = "SELECT * FROM member WHERE chip_id=(?)"
+                    results = cur.execute(query, [str(chip_id)])
                else:
                     query = "SELECT * FROM member WHERE id=(?)"
                     results = cur.execute(query, str(id))

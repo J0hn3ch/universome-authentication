@@ -71,8 +71,8 @@ def create_app(test_config=None):
     def disconnect():
         print('Client disconnected',  request.sid)
 
-    #from .routes import members
-    #app.register_blueprint(members.mbr)
+    from .routes import member
+    app.register_blueprint(member.mbr)
 
     #from . import routes
     #app.register_blueprint(routes.lgn)

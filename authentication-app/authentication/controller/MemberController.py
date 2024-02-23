@@ -20,6 +20,16 @@ class MemberController:
         #for member in members_list:
             # member: (id(int), 'Full name', 'Role', 'student_id', 'timestamp', authorized(bool))
     
+    def getMemberByChipId(self, chip_id=None):
+        member_list = None
+        
+        if chip_id is None:
+            member_list = []
+        else:
+            member_list = Member.get_member(chip_id=chip_id)
+        
+        return member_list
+
     def isAuthorized():
         pass
 

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %} Member Access {% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block content %}
+<section class="content">
+    <div class="member__container">
+        <div class="member__wrapper">
+            <div class="member__avatar"></div>
+            <div class="member__bio">
+                <h3> {{ member[1]}} </h3>
+                <h4> {{ member[2]}} </h4>
+            </div>
+            <div class="member__info">
+                <span class="member__authorized">
+                {% if member[5] %}
+                Access granted
+                {% else %}
+                Access denied
+                {% endif %}
+                </span>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
