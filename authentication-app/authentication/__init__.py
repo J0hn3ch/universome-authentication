@@ -7,7 +7,7 @@ from serial import Serial
 
 def create_app(test_config=None):
     # create and configure the app
-    app = Flask(__name__, instance_relative_config=True)
+    app = Flask(__name__, template_folder="templates", instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='universome',
         DATABASE=os.path.join(app.instance_path, 'universome.sqlite'),
@@ -38,9 +38,6 @@ def create_app(test_config=None):
     from . import db
     db.init_app(app)
 
-    # APIs
-    #from .api import
-
     # Main Blueprint
     from .routes.main import main as main_blueprint
     app.register_blueprint(main_blueprint)
@@ -49,6 +46,10 @@ def create_app(test_config=None):
     from .routes import auth
     auth.init_app_login_manager(app)
     app.register_blueprint(auth.bp)
+
+    # APIs
+    from .api.routes import api as api_blueprint
+    app.register_blueprint(api_blueprint)
 
     socketio = SocketIO(app, cors_allowed_origins='*')
     """

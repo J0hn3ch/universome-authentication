@@ -2,6 +2,7 @@ from flask import (Blueprint, render_template, current_app, request)
 from flask_login import login_required, current_user
 from flask_socketio import SocketIO, emit
 from authentication.controller.MemberController import MemberController
+from authentication.model.form import RfidValidation
 from serial import Serial
 import threading
 import time
@@ -11,9 +12,11 @@ main = Blueprint('main', __name__, url_prefix='/')
 
 # Index page
 @main.route('/', methods=["GET", "POST"], strict_slashes=False)
+@main.route('/home', methods=["GET", "POST"], strict_slashes=False)
 @main.route('/index', methods=["GET", "POST"], strict_slashes=False)
 def index():
-    return render_template('page/index.html', title="Home")
+    form = RfidValidation()
+    return render_template('page/index.html', title="Home", form=form)
 
 # About Us page
 @main.route('/about-us', methods=["GET"], strict_slashes=False)

@@ -1,9 +1,16 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, make_response, request, jsonify
 
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
-@api.route('/members')
-def list_member(id=None):
+@api.route('/', methods=['GET'])
+def api_root(id=None):
+    if request.method != 'GET':
+        return make_response('Malformed request', 400)
+    response = {'response': 'It Works!'}
+    headers = {"Content-Type": "application/json"}
+    return make_response(jsonify(response), 200, headers)
 
-    return render_template('page.html', name=name)
+@api.route('/member/<string:student_id>')
+def member_profile(student_id=None):
+    pass

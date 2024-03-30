@@ -64,3 +64,18 @@ class RegistrationForm(FlaskForm):
     def validate_uname(self, username):
         if User.query.filter_by(username=username.data).first():
             raise ValidationError("Username already taken!")
+        
+class RfidValidation(FlaskForm):
+    uid = StringField(
+        validators=[
+            validators.InputRequired(),
+            validators.Length(3, 20, message="Please provide a valid username"),
+            validators.Regexp(
+                "^[A-Za-z][A-Za-z0-9]*$",
+                0,
+                "Usernames must have only letters or " "numbers",
+            )
+        ]
+    )
+
+    submit = SubmitField('Check RFID')

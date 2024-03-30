@@ -20,8 +20,25 @@
 
 {% block content %}
 <section class="content">
-    {% for message in get_flashed_messages() %}
-        <div class="flash">{{ message }}</div>
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  
+  <div class='container'>
+    <span class='pulse-button'>
+      <box-icon name='rfid' size="60px"></box-icon>
+    </span>
+  </div>
+  
+  <form action="{{ request.path }}" method="POST" class=""></form>
+    {{ form.csrf_token }}
+
+    {{ form.uid.label }} {{ form.uid(class_="form-control", placeholder="RFID UID") }}
+    {% for error in form.uid.errors %}
+        {{ error }}
     {% endfor %}
+
+    <p> {{ form.submit(class_="form-control", placeholder="Submit")}} </p>
+  </form>
 </section>
 {% endblock %}
