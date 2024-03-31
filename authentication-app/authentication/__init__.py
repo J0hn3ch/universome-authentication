@@ -1,13 +1,16 @@
 from flask import Flask
 #from flask_bcrypt import Bcrypt
 from flask_socketio import SocketIO, emit
-
 import os
 from serial import Serial
+# [Import - Styling]
+from flask_assets import Environment, Bundle
+# [Import - Styling]: Sass compile in development
+from sassutils.wsgi import SassMiddleware
 
 def create_app(test_config=None):
     # create and configure the app
-    app = Flask(__name__, template_folder="templates", instance_relative_config=True)
+    app = Flask(__name__, static_folder='static', template_folder="templates", instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='universome',
         DATABASE=os.path.join(app.instance_path, 'universome.sqlite'),
@@ -16,6 +19,19 @@ def create_app(test_config=None):
     )
     app.debug = True
     app.app_context().push()
+    
+    # Styling: Sass compile
+    '''
+    app.wsgi_app = SassMiddleware(app.wsgi_app, {'authentication': ('static/sass', 'static/css', '/static/css', True )})
+    assets = Environment(app)
+    css = Bundle('sass/main.scss',
+             filters=['libsass'],
+             output='css/style.scss.css',
+             depends='scss/*.scss')
+    assets.register("asset_css", css)
+    css.build(disable_cache=True)
+    '''
+    
     #bcrypt = Bcrypt(app)
 
     #global DATABASE

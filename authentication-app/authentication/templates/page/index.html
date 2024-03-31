@@ -23,11 +23,8 @@
   {% for message in get_flashed_messages() %}
     <div class="flash">{{ message }}</div>
   {% endfor %}
-  
-  <div class='container'>
-    <span class='pulse-button'>
-      <box-icon name='rfid' size="60px"></box-icon>
-    </span>
+  <div class="blobs-container">
+    <div class="blob orange"> <box-icon name='rfid' size="60px"></box-icon> </div>
   </div>
   
   <form action="{{ request.path }}" method="POST" class=""></form>
