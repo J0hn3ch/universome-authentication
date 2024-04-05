@@ -10,8 +10,9 @@ Flask App for User Authentication
 3. Flask Framework
 
 # 1. Getting started
-Run the following command start the project.
+Move from the command line in the 'universome-authentication' folder and run the following command start the project.
 ``` docker compose up ```
+The application can be used from the http://127.0.0.1:8000
 
 ## 1.1 Design
 * [MVC design pattern in Flask](https://www.reddit.com/r/flask/comments/134j8qw/how_can_we_use_the_mvc_pattern_in_flask/)
@@ -119,3 +120,7 @@ Use BCrypt module from Flask Extension
 1. [Add authentication to your app with Flask-Login](https://www.digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login)
 2. [How to authenticate users in Flask](https://www.freecodecamp.org/news/how-to-authenticate-users-in-flask/)
 3. [How Flask-Login works](https://stackoverflow.com/questions/12075535/flask-login-cant-understand-how-it-works)
+
+# Credits
+
+# License
