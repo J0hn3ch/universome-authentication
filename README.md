@@ -61,6 +61,10 @@ Use BCrypt module from Flask Extension
 1. [DB Browser for SQLite] (https://sqlitebrowser.org/)
 2. [Database Connection and Cursor closing] (https://www.quora.com/What-is-the-difference-between-cursor-and-connection-when-performing-operations-on-databases)
 
+## Database Cache
+1. [Redis](https://redis.com/)
+2. 
+
 ## Styling
 1. libsass - [https://sass.github.io/libsass-python/index.html](https://sass.github.io/libsass-python/index.html)
 2. libsass with Flask - [https://sass.github.io/libsass-python/frameworks/flask.html](https://sass.github.io/libsass-python/frameworks/flask.html)

@@ -4,8 +4,13 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% if title %}
+    <title>{{ title }} - UniVersoMe</title>
+    {% else %}
+    <title>Welcome to UniVersoMe</title>
+    {% endif %}
 
-    <title>{% block title %}{% endblock %} - UniVersoMe</title>
+    <!--<title>{% block title %}{% endblock %} - UniVersoMe</title>-->
     <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/style.scss.css') }}" type="text/css"> --> 
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> 
     <!-- Bulma CSS Framework <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" /> -->

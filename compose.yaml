@@ -17,9 +17,16 @@ services:
       - 8000:8000
     devices:
       - /dev/ttyACM0:/dev/ttyACM0
+    stop_signal: SIGINT
     privileged: true
     tty: true
     stdin_open: true
+
+  db_cache:
+    container_name: database-cache-redis
+    image: redis
+    restart: always
+
 
 # Comments are provided throughout this file to help you get started.
 # If you need more help, visit the Docker compose reference guide at
