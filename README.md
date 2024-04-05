@@ -11,7 +11,9 @@ Flask App for User Authentication
 
 # 1. Getting started
 Move from the command line in the 'universome-authentication' folder and run the following command start the project.
+
 ``` docker compose up ```
+
 The application can be used from the http://127.0.0.1:8000
 
 ## 1.1 Design
