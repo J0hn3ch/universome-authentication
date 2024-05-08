@@ -42,18 +42,18 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 
 # Copy the source code into the container.
 COPY . .
-RUN chown ${UID}:${UID} coap_server.py
+RUN chown ${UID}:${UID} server.py
 
 # Switch to the non-privileged user to run the application.
 USER coapuser
 
 # Expose the port that the application listens on.
-EXPOSE 5683
+EXPOSE 5683/udp
 
 # Difference between RUN and CMD
 
 # Run the server
-CMD python3 coap_server.py
+CMD python3 server.py
 
 # Run the application.
 #CMD gunicorn 'authentication-app.app:app' --bind=0.0.0.0:8000
