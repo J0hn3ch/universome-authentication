@@ -22,12 +22,37 @@ services:
     tty: true
     stdin_open: true
 
-  db_cache:
-    container_name: database-cache-redis
-    image: redis
+  # Caching Database
+  # db_cache:
+  #   container_name: database-cache-redis
+  #   image: redis
+  #   restart: always
+  
+  # CoAP Server
+  coap_server:
+    container_name: server-coap
+    build:
+      context: coap-server
+      no_cache: false
+    volumes:
+      - ./coap-server/:/app/
     restart: always
+    ports:
+      - 5683:5683
+  
+  # MQTT Broker
+  # mosquitto:
+  #   container_name: mosquitto
+  #   image: eclipse-mosquitto
+  #   volumes:
+  #     - "./mosquitto-broker/config:/mosquitto/config"
+  #     - "./mosquitto-broker/log:/mosquitto/log"
+  #     - "./mosquitto-broker/data/:/mosquitto/data"
+  #   restart: always
+  #   ports:
+  #     - "1883:1883" 
 
-
+# -------------------------------------------------------------------
 # Comments are provided throughout this file to help you get started.
 # If you need more help, visit the Docker compose reference guide at
 # https://docs.docker.com/compose/compose-file/
