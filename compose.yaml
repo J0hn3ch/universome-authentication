@@ -51,7 +51,7 @@ services:
     volumes:
       - ./coap-server-2:/app/
     restart: always
-    network_mode: host
+    network_mode: bridge # host
     ports:
       - 80:80/udp
       - 5683:5683/udp

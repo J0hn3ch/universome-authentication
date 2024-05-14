@@ -50,8 +50,8 @@ RUN chown ${UID}:${UID} server.py
 USER coapuser
 
 # Expose the port that the application listens on.
-EXPOSE 5683/udp
-EXPOSE 80/udp
+EXPOSE 5683 5683/udp
+EXPOSE 80 80/udp
 
 # Difference between RUN and CMD
 

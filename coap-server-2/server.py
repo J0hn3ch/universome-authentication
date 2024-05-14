@@ -146,7 +146,7 @@ async def main():
     root.add_resource(['other', 'separate'], SeparateLargeResource())
     root.add_resource(['whoami'], WhoAmI())
 
-    await aiocoap.Context.create_server_context(root, bind=('127.0.0.1', 5683)) # https://aiocoap.readthedocs.io/en/latest/module/aiocoap.html#aiocoap.Context.create_server_context
+    await aiocoap.Context.create_server_context(root, bind=('0.0.0.0', 5683)) # https://aiocoap.readthedocs.io/en/latest/module/aiocoap.html#aiocoap.Context.create_server_context
     logging.info('CoAP server listening to port 5683')
 
     # Run forever
