@@ -1,13 +1,11 @@
 DROP TABLE IF EXISTS user;
-DROP TABLE IF EXISTS member;
-DROP TABLE IF EXISTS smart_card;
-
 CREATE TABLE user (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL
 );
 
+DROP TABLE IF EXISTS member;
 CREATE TABLE member (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     full_name TEXT NOT NULL,
@@ -18,6 +16,7 @@ CREATE TABLE member (
     card_id TEXT NOT NULL
 );
 
+DROP TABLE IF EXISTS smart_card;
 CREATE TABLE smart_card (
     id TEXT NOT NULL UNIQUE,
     model TEXT NOT NULL,
@@ -25,12 +24,14 @@ CREATE TABLE smart_card (
     FOREIGN KEY(member) REFERENCES member(id)
 );
 
+DROP TABLE IF EXISTS room;
 CREATE TABLE room (
     id TEXT NOT NULL UNIQUE,
     full_name TEXT NOT NULL,
     building TEXT NOT NULL
 );
 
+DROP TABLE IF EXISTS entrance;
 CREATE TABLE entrance (
     rowid INTEGER PRIMARY KEY AUTOINCREMENT,
     entrance_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
