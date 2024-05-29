@@ -14,12 +14,12 @@
                 <div class="member-list__wrapper">
                     <div class="member-list__avatar"></div>
                     <div class="member-list__bio">
-                        <h3> {{ member[1]}} </h3>
-                        <h4> {{ member[2]}} </h4>
+                        <h3> {{ member.full_name }} </h3>
+                        <h4> {{ member.role }} </h4>
                     </div>
                     <div class="member-list__info">
                         <span class="member-list__authorized">
-                        {% if member[5] %}
+                        {% if member.authorized %}
                         Access granted
                         {% else %}
                         Access denied

@@ -6,16 +6,17 @@ class MemberController:
 
     def getMember(self, id=None):
         members_list = None
-        print("MemberController: " + str(type(id)))
         if id is None:
+            # Check if list is empty
             members_list = Member.get_member()
-        else:
-            members_list = Member.get_member(id)
-        
-        if not members_list: # Check if list is empty
-            return None
-        else:
             return members_list
+        else:
+            print("MemberController: id = ", id, type(id))
+            members_list = Member.get_member(member_id=id)
+            return members_list
+            
+        #member_dict = dict(zip(members_list.keys(), members_list))
+        #return member_dict
         
         #for member in members_list:
             # member: (id(int), 'Full name', 'Role', 'student_id', 'timestamp', authorized(bool))
@@ -33,5 +34,6 @@ class MemberController:
     def isAuthorized():
         pass
 
-    
-
+    def createMember(full_name, member_role, student_id, authorized):
+        member = Member(full_name, member_role, student_id, authorized)
+        return member.create_member()

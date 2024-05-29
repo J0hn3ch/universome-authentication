@@ -15,6 +15,7 @@ Move from the command line in the 'universome-authentication' folder and run the
 ``` docker compose up ```
 
 The application can be used from the http://127.0.0.1:8000
+The CoAP Server can be used from the http://127.0.0.1:5683
 
 ## 1.1 Design
 * [MVC design pattern in Flask](https://www.reddit.com/r/flask/comments/134j8qw/how_can_we_use_the_mvc_pattern_in_flask/)
@@ -63,6 +64,9 @@ Use BCrypt module from Flask Extension
 ## Database
 1. [DB Browser for SQLite] (https://sqlitebrowser.org/)
 2. [Database Connection and Cursor closing] (https://www.quora.com/What-is-the-difference-between-cursor-and-connection-when-performing-operations-on-databases)
+
+_Other useful resources for Database_
+* [Autoincrement - SQLite Doc](https://www.sqlite.org/autoinc.html)
 
 ## Database Cache
 1. [Redis](https://redis.com/)

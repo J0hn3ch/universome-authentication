@@ -8,28 +8,33 @@ def get_db():
     is unique for each request and will be reused if this is called
     again.
     """
-    if 'db' not in g:
-        g.db = sqlite3.connect(
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect(
             current_app.config['DATABASE'],
             detect_types=sqlite3.PARSE_DECLTYPES
         )
-        g.db.row_factory = sqlite3.Row
-    return g.db
+        g._database.row_factory = sqlite3.Row
+    return db
 
-def close_db(e=None):
-    """If this request connected to the database, close the
-    connection.
-    """
-    db = g.pop('db', None)
-
+@current_app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
     if db is not None:
         db.close()
 
 def init_db():
-    db = get_db()
+    with current_app.app_context():
+        db = get_db()
+        with current_app.open_resource('schema.sql', mode='r') as f:
+            db.cursor().executescript( f.read() )
+        db.commit()
 
-    with current_app.open_resource('schema.sql') as f:
-        db.executescript(f.read().decode('utf8'))
+def query_db(query, args=(), one=False):
+    cur = get_db().execute(query, args)
+    rv = cur.fetchall()
+    cur.close()
+    return (rv[0] if rv else None) if one else rv
 
 def populate_db():
     pass
@@ -41,5 +46,5 @@ def init_db_command():
     click.echo('Initialized the database.')
 
 def init_app(app):
-    app.teardown_appcontext(close_db)
+    app.teardown_appcontext(close_connection)
     app.cli.add_command(init_db_command)
