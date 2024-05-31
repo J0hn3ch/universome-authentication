@@ -5,7 +5,7 @@ import json
 class Member():
      __tablename__ = "member"
 
-     def __init__(self, full_name, role, student_id, authorized, id=None, created=None, chip_id=None):
+     def __init__(self, full_name, role, student_id, authorized, id=None, created=None, card_id=None):
           self.id = id # https://stackoverflow.com/questions/37472870/login-user-fails-to-get-user-id 
           self.full_name = full_name
           self.role = role
@@ -54,7 +54,7 @@ class Member():
                          student_id=record['student_id'],
                          created=str(record['created']),
                          authorized=bool(record['authorized']),
-                         chip_id=record['chip_id']
+                         card_id=record['card_id']
                     )
                     members.append(member)
                     print(member.__dict__)

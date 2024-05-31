@@ -14,7 +14,8 @@ services:
       - FLASK_APP=authentication
       - FLASK_DEBUG=1
     networks:
-      - web-data
+      web-data:
+        ipv4_address: 172.26.0.2
     ports:
       - 8000:8000
     devices:
@@ -71,6 +72,10 @@ services:
 networks:
   web-data:
     driver: bridge
+    ipam:
+     config:
+       - subnet: 172.26.0.0/16
+         gateway: 172.26.0.1
 # Docker Network Drivers - https://docs.docker.com/network/drivers/ 
 
 # -------------------------------------------------------------------

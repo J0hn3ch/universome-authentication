@@ -10,6 +10,7 @@ for some more information."""
 
 import datetime
 import logging
+import requests
 
 import asyncio
 
@@ -39,6 +40,43 @@ class Welcome(resource.Resource):
             return aiocoap.Message(payload=self.representations[cf], content_format=cf)
         except KeyError:
             raise aiocoap.error.UnsupportedContentFormat
+
+class WelcomeMember(resource.Resource):
+
+    def __init__(self):
+        super().__init__()
+        self.set_content(b"Welcome Member\n")
+
+    def set_content(self, content):
+        self.content = content
+        while len(self.content) <= 1024:
+            self.content = self.content + b"0123456789\n"
+    
+    def check_authorization(self, member_id):
+        api_endpoint = "http://172.26.0.2:8000/api/member/1"
+        par1 = "2"
+        parameters = {'key1', par1}
+        response = requests.get(url=api_endpoint)
+        data = response.json()
+        
+        print("Member ID:%s\nFull Name:%s\nCard ID:%s" % (data['id'], data['full_name'], data['card_id']))
+        return data
+
+    
+    async def render_get(self, request):
+        self.check_authorization(member_id=1)
+
+        cf = self.default_representation if request.opt.accept is None else request.opt.accept
+        
+        try:
+            return aiocoap.Message(payload=self.representations[cf], content_format=cf)
+        except KeyError:
+            raise aiocoap.error.UnsupportedContentFormat
+        
+    async def render_put(self, request):
+        print('PUT payload: %s' % request.payload)
+        self.set_content(request.payload)
+        return aiocoap.Message(code=aiocoap.CHANGED, payload=self.content)
 
 class BlockResource(resource.Resource):
     """Example resource which supports the GET and PUT methods. It sends large
@@ -141,6 +179,9 @@ async def main():
     root.add_resource(['.well-known', 'core'],
             resource.WKCResource(root.get_resources_as_linkheader))
     root.add_resource([], Welcome())
+
+    root.add_resource(['member'], WelcomeMember())
+
     root.add_resource(['time'], TimeResource())
     root.add_resource(['other', 'block'], BlockResource())
     root.add_resource(['other', 'separate'], SeparateLargeResource())

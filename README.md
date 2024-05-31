@@ -65,6 +65,8 @@ Use BCrypt module from Flask Extension
 1. [DB Browser for SQLite] (https://sqlitebrowser.org/)
 2. [Database Connection and Cursor closing] (https://www.quora.com/What-is-the-difference-between-cursor-and-connection-when-performing-operations-on-databases)
 
+**Flask**: [Using SQLite 3 with Flask - Flask Doc](https://flask.palletsprojects.com/en/3.0.x/patterns/sqlite3/)
+
 _Other useful resources for Database_
 * [Autoincrement - SQLite Doc](https://www.sqlite.org/autoinc.html)
 
