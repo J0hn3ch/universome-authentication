@@ -15,6 +15,7 @@ import requests
 import asyncio
 
 import aiocoap.resource as resource
+from aiocoap import Message
 from aiocoap.numbers.contentformat import ContentFormat
 import aiocoap
 
@@ -119,6 +120,42 @@ class SeparateLargeResource(resource.Resource):
                 "mortal men doomed to die, one ring for the dark lord on his "\
                 "dark throne.".encode('ascii')
         return aiocoap.Message(payload=payload)
+    
+class UnauthorizedAccess(resource.ObservableResource):
+    def __init__(self):
+        super().__init__()
+        self.set_content(b"Sample Unauthorized Member\n")
+        self.observers = []
+        self.handle = None
+
+    def set_content(self, content):
+        self.content = content
+        while len(self.content) <= 1024:
+            self.content = self.content + b"0123456789\n"
+
+    # !!! Check this function
+    def add_observation(self, request, server):
+        self.observers.append((request, server))
+        server.add_observation(request, self)
+
+    def notify_observers(self):
+        for request, server in self.observers:
+            response = Message(code=aiocoap.CONTENT, payload=self.content)
+            server.send_response(request, response)
+
+    async def render_get(self, request):
+        return Message(payload=self.content)
+    
+    async def render_put(self, request):
+        self.content = request.payload
+        self.notify_observers()
+        return Message(code=aiocoap.CHANGED, payload=self.content)
+    
+    async def render_delete(self, request):
+        if not self.observers:
+            return Message(code=aiocoap.DELETED)
+        else:
+            return Message(code=aiocoap.FORBIDDEN, payload=b"Cannot delete while observers are active")
 
 class TimeResource(resource.ObservableResource):
     """Example resource that can be observed. The `notify` method keeps
