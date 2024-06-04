@@ -13,3 +13,4 @@ WTForms
 Werkzeug==2.3.7
 Flask-Assets==2.1.0
 libsass
+flask-cors

@@ -12,9 +12,13 @@ class Member():
           self.student_id = student_id
           self.created = created
           self.authorized = authorized
+          self.card_id = card_id
 
      def get_id(self):
           return self.id
+     
+     def get_authorized(self):
+          return self.authorized
      
      def _check_attributes(self):
           validation_flag = (self.full_name is not None) \
@@ -24,20 +28,20 @@ class Member():
           return validation_flag
      
      @staticmethod
-     def get_member(member_id=None, chip_id=None):
-          print("MemberModel: get_member, id = ", member_id, type(member_id))
+     def get_member(member_id=None, card_id=None):
+          print("MemberModel: get_member: id, card_id - ", member_id, type(member_id), card_id, type(card_id))
           try:
                db = get_db()
                cur = db.cursor()
           except Exception as e:
                raise e
           else:
-               if (member_id is None and chip_id is None):
+               if (member_id is None and card_id is None):
                     query = "SELECT * FROM member" #+ "" if (id is None) else "WHERE id=(?)"
                     records = cur.execute(query).fetchall()
-               elif (chip_id is not None):
-                    query = "SELECT * FROM member WHERE chip_id=(?)"
-                    records = cur.execute(query, [str(chip_id)]).fetchone()
+               elif (card_id is not None):
+                    query = "SELECT * FROM member WHERE card_id=(?)"
+                    records = cur.execute(query, [str(card_id)]).fetchall() #.fetchone()
                else:
                     query = "SELECT * FROM member WHERE id=(?)"
                     print("MemberModel: query = ", str(member_id), type(str(member_id)))
@@ -79,6 +83,12 @@ class Member():
                
                cur.close()
                return query #records
+
+     def update_member(id, full_name=None, role=None, student_id=None, authorized=None, card_id=None):
+          pass
+     
+     def delete_member(id):
+          pass
 
      # - https://stackoverflow.com/questions/3768895/how-to-make-a-class-json-serializable  
      def to_json(self):

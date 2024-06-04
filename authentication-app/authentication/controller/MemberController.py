@@ -4,11 +4,14 @@ class MemberController:
     def __init__(self):
         pass
 
-    def getMember(self, id=None):
+    def getMember(self, id=None, card_id=None):
         members_list = None
-        if id is None:
+        if id is None and card_id is None:
             # Check if list is empty
             members_list = Member.get_member()
+            return members_list
+        elif card_id is not None:
+            members_list = Member.get_member(card_id=card_id)
             return members_list
         else:
             print("MemberController: id = ", id, type(id))
@@ -34,6 +37,32 @@ class MemberController:
     def isAuthorized():
         pass
 
-    def createMember(full_name, member_role, student_id, authorized):
-        member = Member(full_name, member_role, student_id, authorized)
-        return member.create_member()
+    def createMember(self, full_name, member_role, student_id, authorized):
+        '''
+        Receive values from a request to an endpoint.
+        Implement value checking, error management, response management.
+        '''
+        result = {'full_name' : full_name, 'role' : member_role, 'student_id' : student_id, 'authorized' : authorized}
+        print(result)
+        #member = Member(full_name, member_role, student_id, authorized)
+        return result #member.create_member()
+    
+    def updateMember(self, id, full_name=None, member_role=None, student_id=None, authorized=None):
+        '''
+        Receive values from a request to an endpoint.
+        Implement value checking, error management, response management.
+        '''
+        result = {'full_name' : full_name, 'role' : member_role, 'student_id' : student_id, 'authorized' : authorized}
+        print(result)
+        #member = Member(full_name, member_role, student_id, authorized)
+        return result #member.create_member()
+    
+    def deleteMember(self, id):
+        '''
+        Receive values from a request to an endpoint.
+        Implement value checking, error management, response management.
+        '''
+        result = {'id' : id}
+        print(result)
+        #member = Member(full_name, member_role, student_id, authorized)
+        return result #member.create_member()

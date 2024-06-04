@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 #from flask_bcrypt import Bcrypt
 from flask_socketio import SocketIO, emit
 import os
@@ -19,6 +20,7 @@ def create_app(test_config=None):
     )
     app.debug = True
     app.app_context().push()
+    cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
     
     # Styling: Sass compile
     '''

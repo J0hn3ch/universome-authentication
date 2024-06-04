@@ -92,6 +92,7 @@ _Other useful resources for Database_
     * [https://auth0.com/blog/best-practices-for-flask-api-development/](https://auth0.com/blog/best-practices-for-flask-api-development/)
     * [https://auth0.com/blog/developing-restful-apis-with-python-and-flask/](https://auth0.com/blog/developing-restful-apis-with-python-and-flask/)
     * make_response() Docs: [https://tedboy.github.io/flask/generated/flask.make_response.html](https://tedboy.github.io/flask/generated/flask.make_response.html)
+    * Flask.Request [https://flask.palletsprojects.com/en/3.0.x/api/#incoming-request-data](https://flask.palletsprojects.com/en/3.0.x/api/#incoming-request-data)
 
 3. **Flask-Login**: [https://flask-login.readthedocs.io/en/latest/](https://flask-login.readthedocs.io/en/latest/)
 4. **Flask-Bcrypt**: [https://flask-bcrypt.readthedocs.io/en/1.0.1/index.html](https://flask-bcrypt.readthedocs.io/en/1.0.1/index.html)
@@ -100,6 +101,7 @@ _Other useful resources for Database_
 7. **PySerial - Documentation**: [https://pyserial.readthedocs.io/en/latest/](https://pyserial.readthedocs.io/en/latest/)
 8. **Server-Sent Event**: [https://dev.to/cloudx/backend-to-frontend-communication-with-server-sent-events-56kf](https://dev.to/cloudx/backend-to-frontend-communication-with-server-sent-events-56kf)
 9. **Flask-SSE**: [https://flask-sse.readthedocs.io/en/latest/quickstart.html](https://flask-sse.readthedocs.io/en/latest/quickstart.html)
+10. **Flask-CORS**: [https://flask-cors.readthedocs.io/en/3.0.10/](https://flask-cors.readthedocs.io/en/3.0.10/)
 
 ## Database
 1. Timestamp: [https://dev.mysql.com/doc/refman/8.0/en/timestamp-initialization.html](https://dev.mysql.com/doc/refman/8.0/en/timestamp-initialization.html)
