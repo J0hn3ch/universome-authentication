@@ -20,8 +20,30 @@ def reading(serial):
 reading_thread = threading.Thread(target=reading, daemon=True)
 '''
 def serial_worker():
-    with serial.Serial(port='/dev/ttyS0', baudrate = 9600, rtscts=True, dsrdtr=True, timeout=1) as ser:
-        pass
+    # ser = serial.Serial(port='/dev/ttyS4', baudrate = 9600, rtscts=True, dsrdtr=True,
+    #     parity=serial.PARITY_NONE,
+    #     stopbits=serial.STOPBITS_ONE,
+    #     bytesize=serial.EIGHTBITS,
+    #     timeout=1
+    # )
+    #counter=0
+    with serial.Serial(port='/dev/ttyACM0', baudrate = 9600, rtscts=True, dsrdtr=True, timeout=1) as ser:
+        while True:
+            print("\nSerial Device Info\n=================")
+            #print("Serial Name: ", ser.name)
+            print("Serial Port: ", ser.port)
+
+
+            card = ser.readlines()
+            if not card: # no lines read
+                pass
+            else:
+                print("Smart card model: ", card[0])
+                print("Card ID: ", card[1], type(card[1]))
+                print("Card ID (UTF-8): ", card[1].decode(encoding='utf-8'))
+                return card[1].decode(encoding='utf-8')
+            
+            time.sleep(1)
 
 # ====== [ CoAP Client ] ======
 def alert_unauthorized_access():
@@ -43,30 +65,24 @@ async def main():
         print("Result: %s\n%r" % (response.code, response.payload))
 
 if __name__ == "__main__":
-    
-    # ser = serial.Serial(port='/dev/ttyS4', baudrate = 9600, rtscts=True, dsrdtr=True,
-    #     parity=serial.PARITY_NONE,
-    #     stopbits=serial.STOPBITS_ONE,
-    #     bytesize=serial.EIGHTBITS,
-    #     timeout=1
-    # )
-    #counter=0
-    # ====== [ HTTP Client ] ======
-    url_request = "http://127.0.0.0:8000/api/member/001122AABB"
-    par1 = "2"
-    parameters = {'key1', par1}
-    response = requests.get(url=url_request)
-    member = response.json()[0]
+
+    # ====== [ HTTP Request ] ======
+    url_request = "http://127.0.0.0:8000/api/member/"
+    parameters = {'key1', 'par1'}
     
     # 1. Listen for incoming Smart Card signal
     while True:
-        time.sleep(1)
+
+        # ====== [ Time ] ======
         now=datetime.datetime.now()
         y=now.strftime("%H:%M:%S") # https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes 
         print("\n====== Time: %s" % y)
-        #x=ser.readline()
-        #print(x,y)
         #asyncio.run(main())
+
+        card_id = serial_worker()
+        response = requests.get(url=url_request + card_id)
+        member = response.json()[0]
+    
 
         # 2. If the Serial line is inactive, do anything
         if response.status_code == 500:
@@ -76,7 +92,8 @@ if __name__ == "__main__":
             # 3.1 Get this data
             # 3.2 Check this date if it corresponds to the type of Smart Card used by the company
             # 3.3 Send the Smart Card id to the server to get info about the member
-            print("Member ID: %s, Full Name: %s, Card ID: %s" % (member['id'], member['full_name'], "AA:BB:CC"))
+            print("\nMember Info\n=================")
+            print("Member ID: %s, Full Name: %s, Card ID: %s" % (member['id'], member['full_name'], member['card_id']))
             print("Is authorized?  %s" % member['authorized'])
 
             # 3.4 Print AUTHORIZED if the member is authorized for the entrance
@@ -86,3 +103,5 @@ if __name__ == "__main__":
             else: # 3.5 Print DENIED if the member is not authorized for the entrance
                 print('Entrance DENIED! Member not authorized')
                 # 3.5.1 Send negative signal to Arduino if the member is not authorized
+        
+        time.sleep(1)

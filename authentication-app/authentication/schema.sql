@@ -44,8 +44,8 @@ CREATE TABLE entrance (
 INSERT INTO user VALUES (1, 'admin', 'password');
 INSERT INTO user VALUES (2, 'subscriber', 'password2');
 
-INSERT INTO member VALUES (1,'Gianluca Carbone','coordinator','gianluca.carbone', CURRENT_TIMESTAMP, TRUE, '001122AABB');
-INSERT INTO member VALUES (2,'Domenico Leonello','secretary','domenico.leonello', CURRENT_TIMESTAMP, FALSE, '001122AACC');
+INSERT INTO member VALUES (1,'Gianluca Carbone','coordinator','gianluca.carbone', CURRENT_TIMESTAMP, TRUE, '7145176147');
+INSERT INTO member VALUES (2,'Domenico Leonello','secretary','domenico.leonello', CURRENT_TIMESTAMP, FALSE, '8710524181');
 INSERT INTO member VALUES (3,'Francesco Pullella','newspaper','francesco.pullella', CURRENT_TIMESTAMP, TRUE, '001122AADD');
 INSERT INTO member VALUES (4,'Roberta Leone','social','roberta.leone', CURRENT_TIMESTAMP, FALSE, '001122AAEE');
 
