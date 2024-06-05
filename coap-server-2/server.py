@@ -10,14 +10,17 @@ for some more information."""
 
 import datetime
 import logging
-import requests
-
+#import requests
+import sqlite3
 import asyncio
 
 import aiocoap.resource as resource
 from aiocoap import Message
 from aiocoap.numbers.contentformat import ContentFormat
 import aiocoap
+
+# Member Model
+from MemberModel import Member
 
 class Welcome(resource.Resource):
     representations = {
@@ -43,6 +46,20 @@ class Welcome(resource.Resource):
             raise aiocoap.error.UnsupportedContentFormat
 
 class WelcomeMember(resource.Resource):
+    representations = {
+            ContentFormat.TEXT: b"Sample Member",
+            ContentFormat.LINKFORMAT: b"</.well-known/core>,ct=40",
+            # ad-hoc for application/xhtml+xml;charset=utf-8
+            ContentFormat(65000):
+                b'<html xmlns="http://www.w3.org/1999/xhtml">'
+                b'<head><title>aiocoap demo</title></head>'
+                b'<body><h1>Welcome to the aiocoap demo server!</h1>'
+                b'<ul><li><a href="time">Current time</a></li>'
+                b'<li><a href="whoami">Report my network address</a></li>'
+                b'</ul></body></html>',
+            }
+    
+    default_representation = ContentFormat.TEXT
 
     def __init__(self):
         super().__init__()
@@ -53,7 +70,8 @@ class WelcomeMember(resource.Resource):
         while len(self.content) <= 1024:
             self.content = self.content + b"0123456789\n"
     
-    def check_authorization(self, member_id):
+    def check_authorization(self, card_id):
+        ''' HTTP Request 
         api_endpoint = "http://172.26.0.2:8000/api/member/1"
         par1 = "2"
         parameters = {'key1', par1}
@@ -62,10 +80,15 @@ class WelcomeMember(resource.Resource):
         
         print("Member ID:%s\nFull Name:%s\nCard ID:%s" % (data['id'], data['full_name'], data['card_id']))
         return data
+        '''
+        ''' SQLite Query'''
+        member = Member.get_member(card_id=card_id)
+        return member['authorized']
 
     
     async def render_get(self, request):
-        self.check_authorization(member_id=1)
+        print(type(request))
+        #self.check_authorization(member_id=1)
 
         cf = self.default_representation if request.opt.accept is None else request.opt.accept
         
@@ -147,7 +170,8 @@ class UnauthorizedAccess(resource.ObservableResource):
         return Message(payload=self.content)
     
     async def render_put(self, request):
-        self.content = request.payload
+        print(request.payload)
+        self.set_content(request.payload)
         self.notify_observers()
         return Message(code=aiocoap.CHANGED, payload=self.content)
     
@@ -224,6 +248,8 @@ async def main():
     root.add_resource(['other', 'separate'], SeparateLargeResource())
     root.add_resource(['whoami'], WhoAmI())
 
+    root.add_resource(['unauthorized'], UnauthorizedAccess())
+
     await aiocoap.Context.create_server_context(root, bind=('0.0.0.0', 5683)) # https://aiocoap.readthedocs.io/en/latest/module/aiocoap.html#aiocoap.Context.create_server_context
     logging.info('CoAP server listening to port 5683')
 
@@ -231,4 +257,11 @@ async def main():
     await asyncio.get_running_loop().create_future()
 
 if __name__ == "__main__":
+    
+    db = sqlite3.connect(
+        './universome.db',
+        detect_types=sqlite3.PARSE_DECLTYPES
+    )
+    db.row_factory = sqlite3.Row
+    
     asyncio.run(main())

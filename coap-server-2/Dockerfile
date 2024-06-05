@@ -4,10 +4,20 @@
 # If you need more help, visit the Dockerfile reference guide at
 # https://docs.docker.com/engine/reference/builder/
 
+# 2024-06-05 Wireshark installation: https://www.youtube.com/watch?v=k23qhS8vPBQ 
+
 FROM ubuntu:20.04 as base
 
+#MAINTAINER Gianluca Carbone <gianlucarbone96@gmail.com>
+USER root
+
 RUN apt-get update \
-    && apt-get install -y python3 python3-venv
+    && apt-get install -y sudo \ 
+    && apt-get install -y python3 python3-venv \
+    && apt-get install -y iproute2 \
+    && apt-get install -y wireshark
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y tshark
+RUN groupadd wireshark
 
 # Prevents Python from writing pyc files.
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -32,7 +42,12 @@ RUN adduser \
     --shell "/sbin/nologin" \
     --no-create-home \
     --uid "${UID}" \
+    --ingroup "wireshark" \
     coapuser
+RUN usermod -aG wireshark coapuser
+RUN setcap 'CAP_NET_RAW+eip CAP_NET_ADMIN+eip' /usr/bin/dumpcap
+RUN chgrp wireshark /usr/bin/dumpcap
+RUN chmod 750 /usr/bin/dumpcap
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.cache/pip to speed up subsequent builds.

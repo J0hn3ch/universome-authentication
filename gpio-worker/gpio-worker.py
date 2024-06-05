@@ -29,15 +29,14 @@ def serial_worker():
     #counter=0
     with serial.Serial(port='/dev/ttyACM0', baudrate = 9600, rtscts=True, dsrdtr=True, timeout=1) as ser:
         while True:
-            print("\nSerial Device Info\n=================")
-            #print("Serial Name: ", ser.name)
-            print("Serial Port: ", ser.port)
-
-
             card = ser.readlines()
             if not card: # no lines read
                 pass
             else:
+                print("\nSerial Device Info\n=================")
+                #print("Serial Name: ", ser.name)
+                print("Serial Port: ", ser.port)
+                print("Serial Baudrate: ", ser.baudrate)
                 print("Smart card model: ", card[0])
                 print("Card ID: ", card[1], type(card[1]))
                 print("Card ID (UTF-8): ", card[1].decode(encoding='utf-8'))
@@ -46,29 +45,26 @@ def serial_worker():
             time.sleep(1)
 
 # ====== [ CoAP Client ] ======
-def alert_unauthorized_access():
+async def alert_unauthorized_access(member_id=None):
     # 1. Create CoAP Client
-    # 2. Prepare the request
-    # 3. Send a PUT request to observable resource for notice unauthorized access
-    pass
-    
-
-async def main():
     protocol = await Context.create_client_context()
-    request = Message(code=GET, uri='coap://localhost/time')
+    
+    # 2. Prepare the request
+    request = Message(code=PUT, payload=member_id, uri='coap://localhost/unauthorized')
+    
+    # 3. Send a PUT request to observable resource for notice unauthorized access
     try:
         response = await protocol.request(request).response
     except Exception as e:
         print("Failed to fetch resource")
         print(e)
     else:
-        print("Result: %s\n%r" % (response.code, response.payload))
+        print("[CoAP Server response] - UNAUTHORIZED ACCESS AT: %s %r" % (response.code, response.payload.decode(encoding='utf-8')))
 
 if __name__ == "__main__":
 
     # ====== [ HTTP Request ] ======
     url_request = "http://127.0.0.0:8000/api/member/"
-    parameters = {'key1', 'par1'}
     
     # 1. Listen for incoming Smart Card signal
     while True:
@@ -77,10 +73,11 @@ if __name__ == "__main__":
         now=datetime.datetime.now()
         y=now.strftime("%H:%M:%S") # https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes 
         print("\n====== Time: %s" % y)
-        #asyncio.run(main())
+        
 
         card_id = serial_worker()
-        response = requests.get(url=url_request + card_id)
+        parameters = {'card_id' : card_id}
+        response = requests.get(url=url_request, params=parameters)
         member = response.json()[0]
     
 
@@ -103,5 +100,8 @@ if __name__ == "__main__":
             else: # 3.5 Print DENIED if the member is not authorized for the entrance
                 print('Entrance DENIED! Member not authorized')
                 # 3.5.1 Send negative signal to Arduino if the member is not authorized
+
+                # 3.5.2 Alert the CoAP Server
+                asyncio.run(alert_unauthorized_access())
         
         time.sleep(1)

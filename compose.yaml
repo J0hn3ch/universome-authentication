@@ -51,11 +51,13 @@ services:
       no_cache: false
     volumes:
       - ./coap-server-2:/app/
+      - ./dump.pcap:/tmp/dump.pcap
     restart: always
     network_mode: bridge # host
     ports:
       - 80:80/udp
       - 5683:5683/udp
+    privileged: false
   
   # MQTT Broker
   # mosquitto:

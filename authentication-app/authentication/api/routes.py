@@ -26,14 +26,14 @@ def check_auth_member(chip_id=None):
 # ================= RESTful APIs Member =================
 @api.route('/member/', defaults={'id':None}, methods=['GET'])
 @api.route('/member/<int:id>', methods=['GET'])
-@api.route('/member/<string:card_id>', methods=['GET'])
-def member_get(id=None, card_id=None):
+#@api.route('/member/<string:card_id>', methods=['GET'])
+def member_get(id=None):
     member_controller = MemberController()
-    if id is None and card_id is None:
+    if id is None and request.args.get('card_id') is None:
         members = member_controller.getMember()
-    elif card_id is not None:
-        print("APIs Route: card_id = ", card_id, type(card_id))
-        members = member_controller.getMember(card_id=card_id)
+    elif request.args.get('card_id') is not None:
+        print("APIs Route: card_id = ", request.args.get('card_id'), type(request.args.get('card_id')))
+        members = member_controller.getMember(card_id=request.args.get('card_id'))
     else:
         print("APIs Route: id = ", id, type(id))
         members = member_controller.getMember(id)
