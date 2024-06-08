@@ -10,13 +10,15 @@ FROM ubuntu:20.04 as base
 
 #MAINTAINER Gianluca Carbone <gianlucarbone96@gmail.com>
 USER root
+RUN DEBIAN_FRONTEND=noninteractive
+RUN export DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
     && apt-get install -y sudo \ 
     && apt-get install -y python3 python3-venv \
-    && apt-get install -y iproute2 \
-    && apt-get install -y wireshark
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y tshark
+    && apt-get install -y tshark
+    #&& apt-get install -y iproute2 \
+    
 RUN groupadd wireshark
 
 # Prevents Python from writing pyc files.
@@ -42,12 +44,13 @@ RUN adduser \
     --shell "/sbin/nologin" \
     --no-create-home \
     --uid "${UID}" \
-    --ingroup "wireshark" \
     coapuser
-RUN usermod -aG wireshark coapuser
-RUN setcap 'CAP_NET_RAW+eip CAP_NET_ADMIN+eip' /usr/bin/dumpcap
-RUN chgrp wireshark /usr/bin/dumpcap
-RUN chmod 750 /usr/bin/dumpcap
+
+RUN dpkg-reconfigure -f noninteractive wireshark-common
+RUN usermod -a -G wireshark coapuser
+#RUN setcap 'CAP_NET_RAW+eip CAP_NET_ADMIN+eip' /usr/bin/dumpcap
+#RUN chgrp wireshark /usr/bin/dumpcap
+#RUN chmod 750 /usr/bin/dumpcap
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.cache/pip to speed up subsequent builds.

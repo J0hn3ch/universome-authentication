@@ -116,6 +116,7 @@ _Other useful resources for Database_
 ## Container
 1. Docker installation (for RPi 3B+ with aarch64, 64bit RaspberryOS): [https://docs.docker.com/engine/install/debian/](https://docs.docker.com/engine/install/debian/)
 2. Docker Compose Flask Sample: [https://github.com/docker/awesome-compose/tree/master/flask](https://github.com/docker/awesome-compose/tree/master/flask)
+3. Static IP in container: [https://stackoverflow.com/questions/39493490/provide-static-ip-to-docker-containers-via-docker-compose](https://stackoverflow.com/questions/39493490/provide-static-ip-to-docker-containers-via-docker-compose)
 
 ## Hardware
 1. Logic Level Shifter / Converter
