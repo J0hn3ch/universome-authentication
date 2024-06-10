@@ -28,8 +28,9 @@ def serial_worker():
     # )
     #counter=0
     with serial.Serial(port='/dev/ttyACM0', baudrate = 9600, rtscts=True, dsrdtr=True, timeout=1) as ser:
+        ser.flush()
         while True:
-            card = ser.readlines()
+            message = ser.readlines()
             if not card: # no lines read
                 pass
             else:
@@ -37,10 +38,9 @@ def serial_worker():
                 #print("Serial Name: ", ser.name)
                 print("Serial Port: ", ser.port)
                 print("Serial Baudrate: ", ser.baudrate)
-                print("Smart card model: ", card[0])
-                print("Card ID: ", card[1], type(card[1]))
-                print("Card ID (UTF-8): ", card[1].decode(encoding='utf-8'))
-                return card[1].decode(encoding='utf-8')
+                print("Smart card model: ", message[0])
+                print("Card ID: ", message[1], type(message[1]), " | Card ID (UTF-8): ", message[1].decode(encoding='utf-8'))
+                return message[1].decode(encoding='utf-8')
             
             time.sleep(1)
 

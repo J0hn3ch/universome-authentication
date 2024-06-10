@@ -48,6 +48,7 @@ RUN adduser \
 
 RUN dpkg-reconfigure -f noninteractive wireshark-common
 RUN usermod -a -G wireshark coapuser
+RUN sudo setcap cap_net_raw,cap_net_admin+eip /usr/bin/dumpcap
 #RUN setcap 'CAP_NET_RAW+eip CAP_NET_ADMIN+eip' /usr/bin/dumpcap
 #RUN chgrp wireshark /usr/bin/dumpcap
 #RUN chmod 750 /usr/bin/dumpcap

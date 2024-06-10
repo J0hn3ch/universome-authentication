@@ -22,6 +22,8 @@ import aiocoap
 # Member Model
 from MemberModel import Member
 
+global db
+
 class Welcome(resource.Resource):
     representations = {
             ContentFormat.TEXT: b"Welcome to the demo server",
@@ -96,6 +98,23 @@ class WelcomeMember(resource.Resource):
             return aiocoap.Message(payload=self.representations[cf], content_format=cf)
         except KeyError:
             raise aiocoap.error.UnsupportedContentFormat
+        
+    async def render_post(self, request):
+        payload = request.payload.decode('utf-8')
+        card_id = payload.strip()
+
+        member = Member.get_member(card_id=card_id)
+        if member:
+            member = member.pop().to_json()
+            if member['authorized']:
+                access_granted = "Access Granted"
+            else:
+                access_granted = "Access Denied"
+        else:
+            raise Exception('Member not found')
+        
+        response = aiocoap.Message(payload=access_granted.encode('utf-8'))
+        return response
         
     async def render_put(self, request):
         print('PUT payload: %s' % request.payload)
@@ -259,9 +278,9 @@ async def main():
 if __name__ == "__main__":
     
     db = sqlite3.connect(
-        './universome.db',
+        './universome.sqlite',
         detect_types=sqlite3.PARSE_DECLTYPES
     )
     db.row_factory = sqlite3.Row
-    
+
     asyncio.run(main())

@@ -1,13 +1,13 @@
-FLASK AUTHENTICATION APP
-========================
+Smart Card Access Control System
+================================
 
-Flask App for User Authentication
----------------------------------
+RFID Card check member entrance
+-------------------------------
 
 # Requirements
 1. Docker Engine
 2. Python
-3. Flask Framework
+3. Flask micro web framework
 
 # 1. Getting started
 Move from the command line in the 'universome-authentication' folder and run the following command start the project.
@@ -50,6 +50,12 @@ lettura. I membri
 ## 3.1 Password Hashing
 Use BCrypt module from Flask Extension
 
+# 3. Tests
+## Testing the Flask Web App
+1. REST APIs tests
+2. CoAP tests
+3. Python script tests.
+
 # 4. Deployment
 * [uWSGI] (https://en.wikipedia.org/wiki/UWSGI)
 
@@ -72,7 +78,6 @@ _Other useful resources for Database_
 
 ## Database Cache
 1. [Redis](https://redis.com/)
-2. 
 
 ## Styling
 1. libsass - [https://sass.github.io/libsass-python/index.html](https://sass.github.io/libsass-python/index.html)
@@ -82,7 +87,7 @@ _Other useful resources for Database_
 1. ```ImportError: cannot import name 'url_decode' from 'werkzeug.urls' (/opt/venv/lib/python3.10/site-packages/werkzeug/urls.py)```
 2. ```sqlite3.OperationalError: attempt to write a readonly database``` Solution: ```RUN chown ${UID}:${UID} instance -R``` in _Dockerfile_
 
-# Guides and resources
+# A. Guides and resources
 
 ## App
 1. **Python**:
@@ -117,6 +122,7 @@ _Other useful resources for Database_
 1. Docker installation (for RPi 3B+ with aarch64, 64bit RaspberryOS): [https://docs.docker.com/engine/install/debian/](https://docs.docker.com/engine/install/debian/)
 2. Docker Compose Flask Sample: [https://github.com/docker/awesome-compose/tree/master/flask](https://github.com/docker/awesome-compose/tree/master/flask)
 3. Static IP in container: [https://stackoverflow.com/questions/39493490/provide-static-ip-to-docker-containers-via-docker-compose](https://stackoverflow.com/questions/39493490/provide-static-ip-to-docker-containers-via-docker-compose)
+4. Expose UDP ports: [How do I publish a UDP Port on Docker? - stackoverflow.com](https://stackoverflow.com/questions/27596409/how-do-i-publish-a-udp-port-on-docker)
 
 ## Hardware
 1. Logic Level Shifter / Converter
@@ -129,7 +135,7 @@ _Other useful resources for Database_
 Client, Toolkit IoT - [https://github.com/IoT-Technology/IoT-Toolkit](https://github.com/IoT-Technology/IoT-Toolkit)
 CoAP Wireshark Packet Analyzer - [https://www.youtube.com/watch?v=RfCbpUYcjdc](https://www.youtube.com/watch?v=RfCbpUYcjdc)
 
-# Tutorials
+# B. Tutorials
 
 ### Project structure
 1. [How to structure Flask project](https://www.reddit.com/r/flask/comments/vttloi/af_how_am_i_supposed_to_structure_my_flask_project/)
@@ -140,5 +146,6 @@ CoAP Wireshark Packet Analyzer - [https://www.youtube.com/watch?v=RfCbpUYcjdc](h
 3. [How Flask-Login works](https://stackoverflow.com/questions/12075535/flask-login-cant-understand-how-it-works)
 
 # Credits
+* Dr. Gianluca Carbone - Engineering and Computer Science student
 
 # License

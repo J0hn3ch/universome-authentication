@@ -14,7 +14,7 @@ services:
       - FLASK_APP=authentication
       - FLASK_DEBUG=1
     networks:
-      web-data:
+      scacs-network:
         ipv4_address: 172.26.0.2
     ports:
       - 8000:8000
@@ -51,15 +51,19 @@ services:
       no_cache: false
     volumes:
       - ./coap-server-2:/app/
+      - ./coap-server-2/dump.pcap:/tmp/dump.pcap
     restart: always
-    network_mode: bridge # host
+    #network_mode: bridge # host
+    networks:
+      scacs-network:
+        ipv4_address: 172.26.0.20
     ports:
       - 80:80/udp
       - 5683:5683/udp
     #privileged: false
     cap_add: # https://docs.docker.com/compose/compose-file/05-services/#cap_add 
-      - CAP_NET_ADMIN
-      - CAP_NET_RAW
+      - NET_ADMIN
+      - NET_RAW
   
   # MQTT Broker
   # mosquitto:
@@ -74,11 +78,11 @@ services:
   #     - "1883:1883"
 
 networks:
-  web-data:
+  scacs-network:
     driver: bridge
     ipam:
      config:
-       - subnet: 172.26.0.0/16
+       - subnet: 172.26.0.0/24
          gateway: 172.26.0.1
 # Docker Network Drivers - https://docs.docker.com/network/drivers/ 
 
@@ -125,4 +129,3 @@ networks:
 # secrets:
 #   db-password:
 #     file: db/password.txt
-
