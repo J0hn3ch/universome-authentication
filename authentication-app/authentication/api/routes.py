@@ -28,6 +28,7 @@ def check_auth_member(chip_id=None):
 @api.route('/member/<int:id>', methods=['GET'])
 #@api.route('/member/<string:card_id>', methods=['GET'])
 def member_get(id=None):
+
     member_controller = MemberController()
     if id is None and request.args.get('card_id') is None:
         members = member_controller.getMember()
@@ -37,10 +38,14 @@ def member_get(id=None):
     else:
         print("APIs Route: id = ", id, type(id))
         members = member_controller.getMember(id)
+    
     headers = {"Content-Type": "application/json"}
-    print(members[0].to_json())
-    return make_response(
-        jsonify([member.to_json() for member in members]), 200, headers)
+    if not members:
+        response = make_response( {"message": "No member found"}, 404, headers)
+    else: 
+        response = make_response( jsonify([member.to_json() for member in members]), 200, headers )
+
+    return response
 
 @api.route('/member/', methods=['POST'])
 def member_post():

@@ -51,7 +51,7 @@ services:
       no_cache: false
     volumes:
       - ./coap-server-2:/app/
-      - ./coap-server-2/dump.pcap:/tmp/dump.pcap
+      - ./coap-server-2/dump.pcap:/app/dump.pcap
     restart: always
     #network_mode: bridge # host
     networks:

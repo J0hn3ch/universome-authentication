@@ -10,6 +10,9 @@ from aiocoap import *
 
 logging.basicConfig(level=logging.INFO)
 
+# ====== [ Serial Connection Handshake ] ======
+global handshake
+
 '''
 reading_event = threading.Thread.Event()
 def reading(serial):
@@ -19,7 +22,8 @@ def reading(serial):
 
 reading_thread = threading.Thread(target=reading, daemon=True)
 '''
-def serial_worker():
+def serial_worker(debug=False):
+    handshake = ""
     # ser = serial.Serial(port='/dev/ttyS4', baudrate = 9600, rtscts=True, dsrdtr=True,
     #     parity=serial.PARITY_NONE,
     #     stopbits=serial.STOPBITS_ONE,
@@ -27,23 +31,48 @@ def serial_worker():
     #     timeout=1
     # )
     #counter=0
-    with serial.Serial(port='/dev/ttyACM0', baudrate = 9600, rtscts=True, dsrdtr=True, timeout=1) as ser:
-        ser.flush()
-        while True:
-            message = ser.readlines()
-            if not card: # no lines read
-                pass
-            else:
-                print("\nSerial Device Info\n=================")
-                #print("Serial Name: ", ser.name)
-                print("Serial Port: ", ser.port)
-                print("Serial Baudrate: ", ser.baudrate)
-                print("Smart card model: ", message[0])
-                print("Card ID: ", message[1], type(message[1]), " | Card ID (UTF-8): ", message[1].decode(encoding='utf-8'))
-                return message[1].decode(encoding='utf-8')
-            
-            time.sleep(1)
+    debug=True
+    with serial.Serial(port='/dev/ttyACM0', baudrate=115200, rtscts=True, dsrdtr=True, timeout=1.0) as ser:
+        
+        print("\nSerial Device Info\n=================")
+        #print("Serial Name: ", ser.name)
+        print("Serial Port: ", ser.port)
+        print("Serial Baudrate: ", ser.baudrate)
+        
+        time.sleep(1)
+        #ser.reset_input_buffer()
+        #ser.flush()
 
+        while True:
+
+            while not handshake: # Skip initialization printing
+                if ser.in_waiting > 0:
+                    message = ser.readline().decode(encoding='utf-8').rstrip()
+                    if message == "H4NDSH4K3":
+                        handshake = message
+                        print("Serial connection established: ", handshake)
+                else:
+                    pass
+
+            time.sleep(0.01)
+            if ser.in_waiting > 0:
+                raw_data = ser.readline()
+                print("[DEBUG] - Raw data ", raw_data) if debug else None
+                decoded_values = raw_data.decode(encoding='utf-8')
+                data = [e.strip() for e in decoded_values.split(',')]
+                print("[DEBUG] - Data: ", data, len(data)) if debug else None
+                print("[DEBUG] - Smart card model: ", data[0]) if debug else None
+                print("[DEBUG] - Card ID: ", data[1], type(data[1])) if debug else None
+                
+                return data[1]
+                #ser.write( "somestring\n".encode('utf-8') )
+                #while ser.in_waiting <= 0:
+                #   time.sleep(0.01)
+            else:
+                pass
+
+            time.sleep(1)
+            
 # ====== [ CoAP Client ] ======
 async def alert_unauthorized_access(member_id=None):
     # 1. Create CoAP Client
@@ -68,7 +97,6 @@ if __name__ == "__main__":
     
     # 1. Listen for incoming Smart Card signal
     while True:
-
         # ====== [ Time ] ======
         now=datetime.datetime.now()
         y=now.strftime("%H:%M:%S") # https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes 
@@ -78,15 +106,16 @@ if __name__ == "__main__":
         card_id = serial_worker()
         parameters = {'card_id' : card_id}
         response = requests.get(url=url_request, params=parameters)
-        member = response.json()[0]
-    
 
         # 2. If the Serial line is inactive, do anything
         if response.status_code == 500:
             print("[Response Status Code 500]: Error in response")
         # 3. Else if the Serial il ready to transmit data (maybe some Smart Card info)..
+        elif response.status_code == 404:
+            print(response.json())
         elif response.status_code == 200: # serial.available()
             # 3.1 Get this data
+            member = response.json()[0]
             # 3.2 Check this date if it corresponds to the type of Smart Card used by the company
             # 3.3 Send the Smart Card id to the server to get info about the member
             print("\nMember Info\n=================")

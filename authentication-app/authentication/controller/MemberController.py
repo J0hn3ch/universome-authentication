@@ -31,7 +31,6 @@ class MemberController:
             member_list = []
         else:
             member_list = Member.get_member(chip_id=chip_id)
-        
         return member_list
 
     def isAuthorized():

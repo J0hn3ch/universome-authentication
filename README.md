@@ -97,7 +97,8 @@ _Other useful resources for Database_
     * [https://auth0.com/blog/best-practices-for-flask-api-development/](https://auth0.com/blog/best-practices-for-flask-api-development/)
     * [https://auth0.com/blog/developing-restful-apis-with-python-and-flask/](https://auth0.com/blog/developing-restful-apis-with-python-and-flask/)
     * make_response() Docs: [https://tedboy.github.io/flask/generated/flask.make_response.html](https://tedboy.github.io/flask/generated/flask.make_response.html)
-    * Flask.Request [https://flask.palletsprojects.com/en/3.0.x/api/#incoming-request-data](https://flask.palletsprojects.com/en/3.0.x/api/#incoming-request-data)
+    * [Flask.Request: ](https://flask.palletsprojects.com/en/3.0.x/api/#incoming-request-data)
+        * [WerkZeug.Request subclass: ](https://werkzeug.palletsprojects.com/en/3.0.x/wrappers/#werkzeug.wrappers.Request)
 
 3. **Flask-Login**: [https://flask-login.readthedocs.io/en/latest/](https://flask-login.readthedocs.io/en/latest/)
 4. **Flask-Bcrypt**: [https://flask-bcrypt.readthedocs.io/en/1.0.1/index.html](https://flask-bcrypt.readthedocs.io/en/1.0.1/index.html)
