@@ -50,7 +50,7 @@ class Welcome(resource.Resource):
 class WelcomeMember(resource.Resource):
     representations = {
             ContentFormat.TEXT: b"Sample Member",
-            ContentFormat.LINKFORMAT: b"</.well-known/core>,ct=40",
+            ContentFormat.LINKFORMAT: b"</member>,ct=40",
             # ad-hoc for application/xhtml+xml;charset=utf-8
             ContentFormat(65000):
                 b'<html xmlns="http://www.w3.org/1999/xhtml">'
@@ -65,12 +65,14 @@ class WelcomeMember(resource.Resource):
 
     def __init__(self):
         super().__init__()
-        self.set_content(b"Welcome Member\n")
+        self.set_content(b"Init Member\n")
+    
+    def get_link_description(self):
+        # Publish additional data in .well-known/core
+        return dict(**super().get_link_description(), title="Log member entrance")
 
     def set_content(self, content):
         self.content = content
-        while len(self.content) <= 1024:
-            self.content = self.content + b"0123456789\n"
     
     def check_authorization(self, card_id):
         ''' HTTP Request 
@@ -143,7 +145,6 @@ class BlockResource(resource.Resource):
         print('PUT payload: %s' % request.payload)
         self.set_content(request.payload)
         return aiocoap.Message(code=aiocoap.CHANGED, payload=self.content)
-
 
 class SeparateLargeResource(resource.Resource):
     """Example resource which supports the GET method. It uses asyncio.sleep to
@@ -248,7 +249,6 @@ class WhoAmI(resource.Resource):
                 payload="\n".join(text).encode('utf8'))
 
 # logging setup
-
 logging.basicConfig(level=logging.INFO)
 logging.getLogger("coap-server").setLevel(logging.DEBUG)
 
@@ -259,14 +259,12 @@ async def main():
     root.add_resource(['.well-known', 'core'],
             resource.WKCResource(root.get_resources_as_linkheader))
     root.add_resource([], Welcome())
-
-    root.add_resource(['member'], WelcomeMember())
-
     root.add_resource(['time'], TimeResource())
     root.add_resource(['other', 'block'], BlockResource())
     root.add_resource(['other', 'separate'], SeparateLargeResource())
     root.add_resource(['whoami'], WhoAmI())
 
+    root.add_resource(['member'], WelcomeMember())
     root.add_resource(['unauthorized'], UnauthorizedAccess())
 
     await aiocoap.Context.create_server_context(root, bind=('0.0.0.0', 5683)) # https://aiocoap.readthedocs.io/en/latest/module/aiocoap.html#aiocoap.Context.create_server_context

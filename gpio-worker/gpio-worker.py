@@ -42,19 +42,20 @@ def serial_worker(debug=False):
         time.sleep(1)
         #ser.reset_input_buffer()
         #ser.flush()
-
+        print("[DEBUG] - Waiting for handshake.. ") if debug else None
         while True:
-
+            #try:
+            time.sleep(0.01)
             while not handshake: # Skip initialization printing
+                time.sleep(0.01)
                 if ser.in_waiting > 0:
                     message = ser.readline().decode(encoding='utf-8').rstrip()
                     if message == "H4NDSH4K3":
                         handshake = message
                         print("Serial connection established: ", handshake)
                 else:
-                    pass
+                    ser.write("Hello\n".encode('utf-8'))
 
-            time.sleep(0.01)
             if ser.in_waiting > 0:
                 raw_data = ser.readline()
                 print("[DEBUG] - Raw data ", raw_data) if debug else None
@@ -72,9 +73,11 @@ def serial_worker(debug=False):
                 pass
 
             time.sleep(1)
+            #except KeyboardInterrupt:
+            #    print("Close serial communication")
             
 # ====== [ CoAP Client ] ======
-async def alert_unauthorized_access(member_id=None):
+async def alert_unauthorized_access(member_id=""):
     # 1. Create CoAP Client
     protocol = await Context.create_client_context()
     
