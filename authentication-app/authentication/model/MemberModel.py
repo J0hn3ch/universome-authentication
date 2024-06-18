@@ -14,6 +14,9 @@ class Member():
           self.authorized = authorized
           self.card_id = card_id
 
+     def __repr__(self):
+          return f"Member('{self.full_name}', '{self.role}', {self.authorized}, '{self.card_id}')"
+
      def get_id(self):
           return self.id
      

@@ -16,7 +16,7 @@ import asyncio
 
 import aiocoap.resource as resource
 from aiocoap import Message
-from aiocoap.numbers.contentformat import ContentFormat
+from aiocoap.numbers.contentformat import ContentFormat # - https://github.com/chrysn/aiocoap/blob/master/aiocoap/numbers/contentformat.py 
 import aiocoap
 
 # Member Model
@@ -165,6 +165,10 @@ class SeparateLargeResource(resource.Resource):
         return aiocoap.Message(payload=payload)
     
 class UnauthorizedAccess(resource.ObservableResource):
+    representations = {
+        ContentFormat.TEXT: b"Welcome to the demo server",
+    }
+    
     def __init__(self):
         super().__init__()
         self.set_content(b"Sample Unauthorized Member\n")
@@ -173,13 +177,27 @@ class UnauthorizedAccess(resource.ObservableResource):
 
     def set_content(self, content):
         self.content = content
-        while len(self.content) <= 1024:
-            self.content = self.content + b"0123456789\n"
+
+    def notify(self):
+        self.updated_state()
+        self.reschedule()
+
+    def reschedule(self):
+        self.handle = asyncio.get_event_loop().call_later(5, self.notify)
+
+    def update_observation_count(self, count):
+        if count and self.handle is None:
+            print("Starting the clock")
+            self.reschedule()
+        if count == 0 and self.handle:
+            print("Stopping the clock")
+            self.handle.cancel()
+            self.handle = None
 
     # !!! Check this function
-    def add_observation(self, request, server):
-        self.observers.append((request, server))
-        server.add_observation(request, self)
+    # def add_observation(self, request, server):
+    #     self.observers.append((request, server))
+    #     server.add_observation(request, self)
 
     def notify_observers(self):
         for request, server in self.observers:
@@ -187,13 +205,14 @@ class UnauthorizedAccess(resource.ObservableResource):
             server.send_response(request, response)
 
     async def render_get(self, request):
-        return Message(payload=self.content)
+        payload = self.content
+        return aiocoap.Message(payload=payload)
     
     async def render_put(self, request):
         print(request.payload)
         self.set_content(request.payload)
-        self.notify_observers()
-        return Message(code=aiocoap.CHANGED, payload=self.content)
+        self.notify()
+        return aiocoap.Message(code=aiocoap.CHANGED, payload=self.content)
     
     async def render_delete(self, request):
         if not self.observers:
