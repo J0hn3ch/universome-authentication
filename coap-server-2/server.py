@@ -23,6 +23,13 @@ import aiocoap
 from MemberModel import Member
 
 global db
+global logger
+
+# logging setup
+logging.basicConfig(level=logging.DEBUG)
+#logging.basicConfig(level=logging.INFO)
+logging.getLogger("asyncio").setLevel(logging.WARNING)
+logging.getLogger("coap-server").setLevel(logging.DEBUG)
 
 class Welcome(resource.Resource):
     representations = {
@@ -166,16 +173,18 @@ class SeparateLargeResource(resource.Resource):
     
 class UnauthorizedAccess(resource.ObservableResource):
     representations = {
-        ContentFormat.TEXT: b"Welcome to the demo server",
+        ContentFormat.TEXT: b"2024-01-01 00:00:00,AABBCCDD,False",
+        ContentFormat.JSON: b"{'timestamp':'2024-01-01 00:00:00', 'card_id':'AABBCCDD', 'authorized':'False' }"
     }
     
     def __init__(self):
         super().__init__()
-        self.set_content(b"Sample Unauthorized Member\n")
+        self.set_content("Sample Unauthorized Member".encode('ascii'))
         self.observers = []
         self.handle = None
 
     def set_content(self, content):
+        ''' content must be a 'bytes' type'''
         self.content = content
 
     def notify(self):
@@ -199,14 +208,17 @@ class UnauthorizedAccess(resource.ObservableResource):
     #     self.observers.append((request, server))
     #     server.add_observation(request, self)
 
-    def notify_observers(self):
-        for request, server in self.observers:
-            response = Message(code=aiocoap.CONTENT, payload=self.content)
-            server.send_response(request, response)
+    # def notify_observers(self):
+    #     for request, server in self.observers:
+    #         response = Message(code=aiocoap.CONTENT, payload=self.content)
+    #         server.send_response(request, response)
 
     async def render_get(self, request):
         payload = self.content
-        return aiocoap.Message(payload=payload)
+        return aiocoap.Message(code=aiocoap.CONTENT, payload=payload)
+    
+    async def render_post(self, request):
+        return aiocoap.Message(code=aiocoap.CHANGED)
     
     async def render_put(self, request):
         print(request.payload)
@@ -267,10 +279,6 @@ class WhoAmI(resource.Resource):
         return aiocoap.Message(content_format=0,
                 payload="\n".join(text).encode('utf8'))
 
-# logging setup
-logging.basicConfig(level=logging.INFO)
-logging.getLogger("coap-server").setLevel(logging.DEBUG)
-
 async def main():
     # Resource tree creation
     root = resource.Site()
@@ -287,7 +295,7 @@ async def main():
     root.add_resource(['unauthorized'], UnauthorizedAccess())
 
     await aiocoap.Context.create_server_context(root, bind=('0.0.0.0', 5683)) # https://aiocoap.readthedocs.io/en/latest/module/aiocoap.html#aiocoap.Context.create_server_context
-    logging.info('CoAP server listening to port 5683')
+    logging.getLogger('coap-server').debug("CoAP server listening to port 5683")
 
     # Run forever
     await asyncio.get_running_loop().create_future()

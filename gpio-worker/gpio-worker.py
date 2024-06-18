@@ -10,7 +10,6 @@ from aiocoap import *
 
 logging.basicConfig(level=logging.INFO)
 
-# ====== [ Serial Connection Handshake ] ======
 global handshake
 
 '''
@@ -22,17 +21,14 @@ def reading(serial):
 
 reading_thread = threading.Thread(target=reading, daemon=True)
 '''
-def serial_worker(debug=False):
-    handshake = ""
-    # ser = serial.Serial(port='/dev/ttyS4', baudrate = 9600, rtscts=True, dsrdtr=True,
-    #     parity=serial.PARITY_NONE,
-    #     stopbits=serial.STOPBITS_ONE,
-    #     bytesize=serial.EIGHTBITS,
-    #     timeout=1
-    # )
-    #counter=0
-    debug=True
-    with serial.Serial(port='/dev/ttyACM0', baudrate=115200, rtscts=True, dsrdtr=True, timeout=1.0) as ser:
+def serial_worker(debug=True):
+    handshake = "" # variable used to establish to start reading output from Arduino
+    
+    # === SERIAL CONNECTION
+    with serial.Serial(port='/dev/ttyACM0', 
+                       baudrate=115200, rtscts=True, dsrdtr=True, 
+                       parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS, 
+                       timeout=1.0,) as ser:
         
         print("\nSerial Device Info\n==================")
         #print("Serial Name: ", ser.name)
@@ -46,6 +42,7 @@ def serial_worker(debug=False):
         while True:
             #try:
             time.sleep(0.01)
+            # ====== [ Serial Connection Handshake ] ======
             while not handshake: # Skip initialization printing
                 time.sleep(0.01)
                 if ser.in_waiting > 0:
