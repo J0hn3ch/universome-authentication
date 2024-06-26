@@ -1,7 +1,9 @@
 pyserial
+aiocoap
 #Django==4.2.6
 redis
-flask==2.3.3
+#flask==2.3.3
+flask[async]
 Flask-Session[redis]
 #Flask-SQLAlchemy==3.1.1
 flask-bcrypt==1.0.1

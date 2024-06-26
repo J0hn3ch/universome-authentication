@@ -1,7 +1,5 @@
 from flask import Blueprint, make_response, request, jsonify
 from authentication.controller.MemberController import MemberController
-#from authentication.
-
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
@@ -76,6 +74,7 @@ def member_post():
         
         headers = {"Content-Type": "application/json"}
         return make_response(jsonify(result), 200, headers)
+
 
 '''
 @api.route('/member/<int:id>', defaults={'id':None}, methods=['PUT'])

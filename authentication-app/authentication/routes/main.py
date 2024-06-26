@@ -1,6 +1,6 @@
 from flask import (Blueprint, render_template, current_app, request)
 from flask_login import login_required, current_user
-from flask_socketio import SocketIO, emit
+
 from authentication.controller.MemberController import MemberController
 from authentication.model.form import RfidValidation
 from serial import Serial
@@ -8,7 +8,6 @@ import threading
 import time
 
 main = Blueprint('main', __name__, url_prefix='/')
-#socketio = SocketIO(current_app, cors_allowed_origins='*')
 
 # Index page
 @main.route('/', methods=["GET", "POST"], strict_slashes=False)

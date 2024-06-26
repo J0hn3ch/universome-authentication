@@ -3,10 +3,13 @@ from flask_cors import CORS
 #from flask_bcrypt import Bcrypt
 import os
 from serial import Serial
-# [Import - Styling]
-from flask_assets import Environment, Bundle
+
 # [Import - Styling]: Sass compile in development
+from flask_assets import Environment, Bundle
 from sassutils.wsgi import SassMiddleware
+
+#global DATABASE
+#DATABASE = os.path.join(app.instance_path, 'universome.sqlite')
 
 def create_app(test_config=None):
     # create and configure the app
@@ -34,9 +37,6 @@ def create_app(test_config=None):
     '''
     
     #bcrypt = Bcrypt(app)
-
-    #global DATABASE
-    #DATABASE = os.path.join(app.instance_path, 'universome.sqlite')
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -68,6 +68,10 @@ def create_app(test_config=None):
     from .api.routes import api as api_blueprint
     app.register_blueprint(api_blueprint)
 
+    # CoAP APIs
+    from .api.routes_coap import coap_api as api_coap_blueprint
+    app.register_blueprint(api_coap_blueprint)
+    
     # Member View
     from .routes import member
     app.register_blueprint(member.mbr)
