@@ -13,39 +13,41 @@
     <!--<title>{% block title %}{% endblock %} - UniVersoMe</title>-->
     <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/style.scss.css') }}" type="text/css"> --> 
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> 
+    
     <!-- Bulma CSS Framework <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" /> -->
-    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
-    <script src="https://unpkg.com/boxicons@2.1.3/dist/boxicons.js"></script>
+    <!-- <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css"> -->
+    <!--<script src="https://unpkg.com/boxicons@2.1.3/dist/boxicons.js"></script>-->
   </head>
   <body>
-    <div class="svg-icons">
-      <svg width="100" height="100">
-        <circle id="myCircle" cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />
-      </svg>
-    </div>
-    <header>
-      <!-- Logo -->
-      <div id="brand-logo-container" class="">
-        <div id="brand-logo-wrapper" class="">
-          <a href="/"> <img src="{{ url_for('static', filename='assets/logo-universome-scuro-crop.png')}}" alt=" "/> </a>
-        </div>
+    <div id="container">
+      <div class="svg-icons">
+        <svg width="100" height="100">
+          <circle id="myCircle" cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />
+        </svg>
       </div>
-      {% block header %}{% endblock %}
-    </header>
-    <nav>
-      {% block navigation %}{% endblock %}
-    </nav>
+      <header>
+        <!-- Logo -->
+        <div id="brand-logo-container" class="">
+          <div id="brand-logo-wrapper" class="">
+            <a href="/"> <img src="{{ url_for('static', filename='assets/logo-universome-scuro-crop.png')}}" alt=" "/> </a>
+          </div>
+        </div>
+        {% block header %}{% endblock %}
+      </header>
+      <nav>
+        {% block navigation %}{% endblock %}
+      </nav>
 
-    <main>
-      {% block content %}{% endblock %}
-
-      <aside>
-        {% block sidebar %}{% endblock %}
-      </aside>
-    </main>
-    
-    <footer>
-      <p>©Copyright UniVersoMe 2023. Tutti i diritti riservati.</p>
-    </footer>
+      <main>
+        {% block content %}{% endblock %}
+        <aside>
+          {% block sidebar %}{% endblock %}
+        </aside>
+      </main>
+      
+      <footer>
+        <p>©Copyright UniVersoMe 2023. Tutti i diritti riservati.</p>
+      </footer>
+    </div>
   </body> 
 </html>

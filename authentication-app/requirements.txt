@@ -8,9 +8,9 @@ flask-bcrypt==1.0.1
 Flask-Login==0.6.2
 Flask-Migrate==4.0.5
 flask-wtf==1.2.1
-flask-socketio
 WTForms
 Werkzeug==2.3.7 #Werkzeug>=3.0.3 - https://github.com/J0hn3ch/universome-authentication/security/dependabot/3
 Flask-Assets==2.1.0
 libsass
 flask-cors
+#flask-socketio

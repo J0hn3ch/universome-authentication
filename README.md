@@ -23,6 +23,7 @@ The CoAP Server can be used from the http://127.0.0.1:5683
 
 # 2. Application factory
 The application factory is coded into the file \__init__.py
+The library [python-dotenv](https://pypi.org/project/python-dotenv/) can be used to load important initial configuration parameters.
 
 ## 2.1 Home page - Descrizione
 Al primo avvio, l'intero sistema vien configurato affinchè il Database disponga del profilo di amministratore di base e consenta
@@ -56,6 +57,22 @@ Use BCrypt module from Flask Extension
 2. CoAP tests
 3. Python script tests.
 
+# 3.1 How to attach Arduino to /dev/ttyACM0 in WSL
+Run the Command Line with administrator privileges
+
+```
+> usbipd list # Find the Arduino device
+# If STATE is "Not shared" run
+> usbipd bind --busid [ARDUINO BUSID] # Put device in STATE: Shared
+# If STATE is "Shared" run
+> usbipd attach --wsl --busid [ARDUINO BUSID]
+```
+
+From the WSL terminal, check if `/dev/ttyACM0` exists, running
+```
+$ ls /dev/tty*
+```
+
 # 4. Deployment
 * [uWSGI] (https://en.wikipedia.org/wiki/UWSGI)
 
@@ -88,7 +105,6 @@ _Other useful resources for Database_
 2. ```sqlite3.OperationalError: attempt to write a readonly database``` Solution: ```RUN chown ${UID}:${UID} instance -R``` in _Dockerfile_
 
 # A. Guides and resources
-
 ## App
 1. **Python**:
     * File ```__init__.py```: [https://betterstack.com/community/questions/what-is-init-py-for/](https://betterstack.com/community/questions/what-is-init-py-for/)
@@ -108,6 +124,9 @@ _Other useful resources for Database_
 8. **Server-Sent Event**: [https://dev.to/cloudx/backend-to-frontend-communication-with-server-sent-events-56kf](https://dev.to/cloudx/backend-to-frontend-communication-with-server-sent-events-56kf)
 9. **Flask-SSE**: [https://flask-sse.readthedocs.io/en/latest/quickstart.html](https://flask-sse.readthedocs.io/en/latest/quickstart.html)
 10. **Flask-CORS**: [https://flask-cors.readthedocs.io/en/3.0.10/](https://flask-cors.readthedocs.io/en/3.0.10/)
+
+_WebSocket in Flask_
+* For Real Time Client-Server communication, it is possible to use flask_socketio module.
 
 ## Database
 1. Timestamp: [https://dev.mysql.com/doc/refman/8.0/en/timestamp-initialization.html](https://dev.mysql.com/doc/refman/8.0/en/timestamp-initialization.html)

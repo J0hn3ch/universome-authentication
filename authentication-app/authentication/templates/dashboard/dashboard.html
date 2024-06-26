@@ -1,18 +1,16 @@
 {% extends 'base.html' %}
 
-{% block header %} {% endblock %}
-
 {% block content %}
     <h2> Benvenuto, {{ username }}</h2>
     <a href="{{url_for('auth.logout')}}"> Log out </a>
 
-    <h3> Membri di UniVersoMe </h3>
+    <h3> Members</h3>
     <div id="members-container">
         <div id="members-wrapper">
             {% for member in members %}
             <div class="member-list__container">
                 <div class="member-list__wrapper">
-                    <div class="member-list__avatar"></div>
+                    <!-- <div class="member-list__avatar"></div> -->
                     <div class="member-list__bio">
                         <h3> {{ member.full_name }} </h3>
                         <h4> {{ member.role }} </h4>
@@ -20,9 +18,43 @@
                     <div class="member-list__info">
                         <span class="member-list__authorized">
                         {% if member.authorized %}
-                        Access granted
+                        Authorized
                         {% else %}
-                        Access denied
+                        Not authorized
+                        {% endif %}
+                        </span>
+                    </div>
+                    <div class="member-list__settings">
+                        <ul>
+                            <li>Info</li>
+                            <li>Edit</li>
+                            <li>Delete</li>
+                        </ul>
+                    </div>
+                </div>
+            </div> 
+            {% endfor %}
+        </div>
+    </div>
+    <h3>Entrance</h3>
+    <div class="list-container">
+        <div class="list-wrapper">
+            {% for member in members %}
+            <div class="member-list__container">
+                <div class="member-list__wrapper">
+                    <!-- <div class="member-list__avatar"></div> -->
+                    <div class="member-list__bio">
+                        <h3> {{ member.full_name }} </h3>
+                    </div>
+                    <div class="member-list__card-id">
+                        <span> {{ member.card_id }} </span>
+                    </div>
+                    <div class="member-list__info">
+                        <span class="member-list__authorized">
+                        {% if member.authorized %}
+                        Authorized
+                        {% else %}
+                        Not authorized
                         {% endif %}
                         </span>
                     </div>

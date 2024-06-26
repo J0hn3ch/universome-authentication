@@ -308,4 +308,4 @@ if __name__ == "__main__":
     )
     db.row_factory = sqlite3.Row
 
-    asyncio.run(main())
+    asyncio.run(main(), debug=True)

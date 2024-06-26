@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_cors import CORS
 #from flask_bcrypt import Bcrypt
-from flask_socketio import SocketIO, emit
 import os
 from serial import Serial
 # [Import - Styling]
@@ -69,32 +68,10 @@ def create_app(test_config=None):
     from .api.routes import api as api_blueprint
     app.register_blueprint(api_blueprint)
 
-    socketio = SocketIO(app, cors_allowed_origins='*')
-    """
-    Decorator for connect
-    """
-    @socketio.on('connect')
-    def connect():
-        global thread
-        print('Client connected')
-
-        global thread
-        with thread_lock:
-            if thread is None:
-                thread = socketio.start_background_task(background_thread)
-
-    """
-    Decorator for disconnect
-    """
-    @socketio.on('disconnect')
-    def disconnect():
-        print('Client disconnected',  request.sid)
-
+    # Member View
     from .routes import member
     app.register_blueprint(member.mbr)
 
-    #from . import routes
-    #app.register_blueprint(routes.lgn)
     #from . import auth
     #app.register_blueprint(auth.bp)
     
