@@ -5,6 +5,7 @@ from flask import (
 from werkzeug.security import check_password_hash, generate_password_hash
 from authentication.model.form import LoginForm, RegistrationForm
 from authentication.controller.UserController import UserController
+#import functools
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -60,9 +61,6 @@ def login():
                 #return redirect(next or url_for('index'))
             except Exception as e:
                 flash(e, "danger")
-        
-        
-    
     return None
 
 @bp.route('/register', methods=('GET', 'POST'))
@@ -114,6 +112,19 @@ def logout():
 def load_user(user_id):
     return UserController.getUserById(int(user_id))
 
+'''
+@bp.before_app_request
+def load_logged_in_user():
+    user_id = session.get('user_id')
+
+    if user_id is None:
+        g.user = None
+    else:
+        g.user = get_db().execute(
+            'SELECT * FROM user WHERE id = ?', (user_id,)
+        ).fetchone()
+'''
+
 @login_manager.request_loader
 def request_loader(request):
     pass
@@ -121,6 +132,17 @@ def request_loader(request):
 @login_manager.unauthorized_handler
 def unauthorized_handler():
     return 'Unauthorized', 401
+
+'''
+def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for('auth.login'))
+
+        return view(**kwargs)
+    return wrapped_view
+'''
 
 # @login_manager.user_loader
 # def user_loader(email):

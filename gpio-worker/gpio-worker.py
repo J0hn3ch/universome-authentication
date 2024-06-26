@@ -92,17 +92,17 @@ async def alert_unauthorized_access(log):
 
 if __name__ == "__main__":
 
-    # ====== [ HTTP Request ] ======
+    # ====== { HTTP Request } ======
     url_request = "http://127.0.0.0:8000/api/member/"
     
     # 1. Listen for incoming Smart Card signal
     while True:
-        # ====== [ Time ] ======
+        # ------ [ Time ] ------
         now=datetime.datetime.now()
         y=now.strftime("%H:%M:%S") # https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes 
         print("\n====== Time: %s" % y)
         
-
+        # ------ [ Serial Data ] ------
         card_id = serial_worker()
         parameters = {'card_id' : card_id}
         response = requests.get(url=url_request, params=parameters)

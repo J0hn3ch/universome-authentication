@@ -45,9 +45,9 @@ INSERT INTO user VALUES (1, 'admin', 'password');
 INSERT INTO user VALUES (2, 'subscriber', 'password2');
 
 INSERT INTO member VALUES (1,'Gianluca Carbone','coordinator','gianluca.carbone', CURRENT_TIMESTAMP, TRUE, '7145176147');
-INSERT INTO member VALUES (2,'Domenico Leonello','secretary','domenico.leonello', CURRENT_TIMESTAMP, FALSE, '576918B5');
-INSERT INTO member VALUES (3,'Francesco Pullella','newspaper','francesco.pullella', CURRENT_TIMESTAMP, TRUE, '001122AADD');
-INSERT INTO member VALUES (4,'Roberta Leone','social','roberta.leone', CURRENT_TIMESTAMP, FALSE, '001122AAEE');
+INSERT INTO member VALUES (2,'Carl Johnson','secretary','carl.johnson', CURRENT_TIMESTAMP, FALSE, '576918B5');
+INSERT INTO member VALUES (3,'Geronimo Stilton','newspaper','geronimo.stilton', CURRENT_TIMESTAMP, TRUE, '001122AADD');
+INSERT INTO member VALUES (4,'Gal Gadot','social','gal.gadot', CURRENT_TIMESTAMP, FALSE, '001122AAEE');
 
 INSERT INTO room(id, full_name, building) VALUES ('A01','CERIP','A.O.U. Policlinico');
 INSERT INTO room(id, full_name, building) VALUES ('B01','UniVersoMe','Palazzo Mariani');
