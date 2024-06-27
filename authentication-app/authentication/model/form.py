@@ -79,3 +79,10 @@ class RfidValidation(FlaskForm):
     )
 
     submit = SubmitField('Check RFID')
+
+'''
+Useful resources:
+
+wtforms.validators: DataRequired vs InputRequired - https://stackoverflow.com/questions/23982917/flask-wtforms-difference-between-datarequired-and-inputrequired
+
+'''

@@ -7,8 +7,8 @@
     <div class="card-container">
         <div class="card-wrapper">
             <div class="card-wrapper__img"></div>
-            <div class="card-wrapper__title"><h2>Gianluca Carbone</h2></div>
-            <div class="card-wrapper__description"><h3>Coordinator</h3></div>
+            <div class="card-wrapper__title"><h2></h2></div>
+            <div class="card-wrapper__description"><h3></h3></div>
             <div class="card-wrapper__social">
                 <ul>
                     <li>
@@ -16,15 +16,15 @@
                             <div class="social-wrapper">
                                 <div class="social-wrapper__logo">
                                     <a href="#">
-                                        A<img src="{{ url_for('static', filename='assets/facebook.png')}}" alt=" "/>
+                                        <!-- A<img src="{{ url_for('static', filename='assets/facebook.png')}}" alt=" "/> --> 
                                     </a>
                                 </div>
                             </div>
                         </div>
                     </li>
-                    <li>B</li>
-                    <li>C</li>
-                    <li>D</li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
                 </ul>
             </div>
         </div>
@@ -33,6 +33,30 @@
 
 <!-- Table -->
 <section>
-    <!-- -->
+    <div><h3>Log degli accessi</h3></div>
+    <table class="container">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Name</th>
+            <th>Card</th>
+            <th>Authorized</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>2024-06-26 10:30</td>
+                <td>Gianluca Carbone</td>
+                <td>AABBCCDD99</td>
+                <td>Access granted</td>
+            </tr>
+            <tr>
+                <td>2024-06-25 10:00</td>
+                <td>Carl Johnson</td>
+                <td>EEFFGGHH11</td>
+                <td>Access Denied</td>
+            </tr>
+        </tbody>
+    </table>
 </section>
 {% endblock %}

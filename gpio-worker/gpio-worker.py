@@ -90,9 +90,10 @@ async def alert_unauthorized_access(log):
     else:
         print("[CoAP Server response] - UNAUTHORIZED ACCESS AT: %s %r" % (response.code, response.payload.decode(encoding='utf-8')))
 
+# ====== { Main } ======
 if __name__ == "__main__":
 
-    # ====== { HTTP Request } ======
+    # ------ [ HTTP Host Config ] ------
     url_request = "http://127.0.0.0:8000/api/member/"
     
     # 1. Listen for incoming Smart Card signal
@@ -104,33 +105,33 @@ if __name__ == "__main__":
         
         # ------ [ Serial Data ] ------
         card_id = serial_worker()
+
+        # ------ [ HTTP Request ] ------
         parameters = {'card_id' : card_id}
         response = requests.get(url=url_request, params=parameters)
+        print("\nWeb App HTTP Request\n====================")
 
-        # 2. If the Serial line is inactive, do anything
-        if response.status_code == 500:
+        if response.status_code == 500: # 2. If the Serial line is inactive, do anything
             print("[Response Status Code 500]: Error in response")
-        # 3. Else if the Serial il ready to transmit data (maybe some Smart Card info)..
-        elif response.status_code == 404:
+        elif response.status_code == 404: # 3. Else if the Serial il ready to transmit data (maybe some Smart Card info)..
             print("[DEBUG] - " + str(response.json()))
         elif response.status_code == 200: # serial.available()
-            # 3.1 Get this data
-            member = response.json()[0]
-            # 3.2 Check this date if it corresponds to the type of Smart Card used by the company
-            # 3.3 Send the Smart Card id to the server to get info about the member
-            print("\nWeb App HTTP Request\n====================")
-            print("[DEBUG] - Member ID: %s, Full Name: %s, Card ID: %s, Authorized: %s" % (member['id'], member['full_name'], member['card_id'], member['authorized']))
-
-            # 3.4 Print AUTHORIZED if the member is authorized for the entrance
-            if member['authorized']:
+            
+            member = response.json()[0] # 3.1 Get this data
+            
+            
+            print("[DEBUG] - Member ID: %s, Full Name: %s, Card ID: %s, Authorized: %s" \
+                  % (member['id'], member['full_name'], member['card_id'], member['authorized']) ) # 3.2 Print the Card Info about the member
+            
+            if member['authorized']: # 3.3 Print AUTHORIZED if the member is authorized for the entrance
                 print("[DEBUG] - Member %s is authorized to entrance" % member['full_name'])
                 # 3.4.1 Send positive signal to Arduino if the member is authorized
             else: # 3.5 Print DENIED if the member is not authorized for the entrance
                 print('[DEBUG] - Entrance DENIED! Member not authorized')
                 # 3.5.1 Send negative signal to Arduino if the member is not authorized
-                # 3.5.2 Alert the CoAP Server
+                
                 timestamp=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 message = timestamp +"," + member['card_id'] + "," + str(member['authorized'])
-                asyncio.run(alert_unauthorized_access(log=message))
+                asyncio.run(alert_unauthorized_access(log=message)) # 3.5.2 Alert the CoAP Server
         
         time.sleep(1)

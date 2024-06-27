@@ -44,14 +44,14 @@ services:
   #     - 5683:5683/udp
   
   # CoAP Server Ubuntu 20.04
-  coap_server-2:
+  coap_server:
     container_name: ubuntu-coap-server
     build:
-      context: coap-server-2
+      context: coap-server
       no_cache: false
     volumes:
-      - ./coap-server-2:/app/
-      - ./coap-server-2/dump.pcap:/app/dump.pcap
+      - ./coap-server:/app/
+      - ./coap-server/dump.pcap:/app/dump.pcap
     restart: always
     #network_mode: bridge # host
     networks:
