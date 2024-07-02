@@ -7,6 +7,8 @@ from serial import Serial
 # [Import - Styling]: Sass compile in development
 from flask_assets import Environment, Bundle
 from sassutils.wsgi import SassMiddleware
+import asyncio
+from aiocoap import *
 
 #global DATABASE
 #DATABASE = os.path.join(app.instance_path, 'universome.sqlite')
@@ -78,5 +80,5 @@ def create_app(test_config=None):
 
     #from . import auth
     #app.register_blueprint(auth.bp)
-    
+
     return app

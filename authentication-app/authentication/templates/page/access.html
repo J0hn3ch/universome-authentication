@@ -23,4 +23,38 @@
         </div>
     </div>
 </section>
+<h3>Entrance</h3>
+    <div class="list-container">
+        <div class="list-wrapper">
+            {% for member in members %}
+            <div class="member-list__container">
+                <div class="member-list__wrapper">
+                    <!-- <div class="member-list__avatar"></div> -->
+                    <div class="member-list__bio">
+                        <h3> {{ member.full_name }} </h3>
+                    </div>
+                    <div class="member-list__card-id">
+                        <span> {{ member.card_id }} </span>
+                    </div>
+                    <div class="member-list__info">
+                        <span class="member-list__authorized">
+                        {% if member.authorized %}
+                        Authorized
+                        {% else %}
+                        Not authorized
+                        {% endif %}
+                        </span>
+                    </div>
+                    <div class="member-list__settings">
+                        <ul>
+                            <li>Info</li>
+                            <li>Edit</li>
+                            <li>Delete</li>
+                        </ul>
+                    </div>
+                </div>
+            </div> 
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

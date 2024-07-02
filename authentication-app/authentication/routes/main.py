@@ -2,7 +2,9 @@ from flask import (Blueprint, render_template, current_app, request)
 from flask_login import login_required, current_user
 
 from authentication.controller.MemberController import MemberController
+from authentication.controller.EntranceLogController import EntranceLogController
 from authentication.model.form import RfidValidation
+
 from serial import Serial
 import threading
 import time
@@ -27,7 +29,8 @@ def about_us():
 def dashboard():
     member_controller = MemberController()
     members = member_controller.getMember()
-    return render_template('dashboard/dashboard.html', title="Dashboard", username=current_user.username, members=members)
+    entrances = EntranceLogController.getEntrancesLog()
+    return render_template('dashboard/dashboard.html', title="Dashboard", username=current_user.username, members=members, entrances=entrances)
 
 """
 Thread functions

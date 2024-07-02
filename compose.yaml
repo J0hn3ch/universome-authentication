@@ -1,8 +1,20 @@
 #version: 1.0.1 # Obsolete
 services:
+
+  # database:
+  #   container_name: webapp-db
+  #   build:
+  #     context: database
+  #     no_cache: true
+  #   networks:
+  #     scacs-network:
+  #       ipv4_address: 172.26.0.XX
+
   webapp:
     container_name: authentication-app
     user: "${UID}:${GID}"
+    # depends_on:
+    #   - database
     build:
       context: authentication-app
       no_cache: true
@@ -30,18 +42,6 @@ services:
   #   container_name: database-cache-redis
   #   image: redis
   #   restart: always
-  
-  # CoAP Server
-  # coap_server:
-  #   container_name: server-coap
-  #   build:
-  #     context: coap-server
-  #     no_cache: false
-  #   volumes:
-  #     - ./coap-server:/app/
-  #   restart: always
-  #   ports:
-  #     - 5683:5683/udp
   
   # CoAP Server Ubuntu 20.04
   coap_server:
@@ -84,6 +84,7 @@ networks:
      config:
        - subnet: 172.26.0.0/24
          gateway: 172.26.0.1
+
 # Docker Network Drivers - https://docs.docker.com/network/drivers/ 
 
 # -------------------------------------------------------------------

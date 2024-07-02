@@ -1,5 +1,6 @@
 from flask import Blueprint, make_response, request, jsonify
 from authentication.controller.MemberController import MemberController
+from authentication.controller.EntranceLogController import EntranceLogController
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
@@ -26,8 +27,8 @@ def check_auth_member(chip_id=None):
 @api.route('/member/<int:id>', methods=['GET'])
 #@api.route('/member/<string:card_id>', methods=['GET'])
 def member_get(id=None):
-
     member_controller = MemberController()
+    
     if id is None and request.args.get('card_id') is None:
         members = member_controller.getMember()
     elif request.args.get('card_id') is not None:
@@ -37,12 +38,11 @@ def member_get(id=None):
         print("APIs Route: id = ", id, type(id))
         members = member_controller.getMember(id)
     
-    headers = {"Content-Type": "application/json"}
+    headers = {"Content-Type": "application/json; charset=utf-8"}
     if not members:
         response = make_response( {"message": "No member found"}, 404, headers)
     else: 
         response = make_response( jsonify([member.to_json() for member in members]), 200, headers )
-
     return response
 
 @api.route('/member/', methods=['POST'])
@@ -74,7 +74,32 @@ def member_post():
         
         headers = {"Content-Type": "application/json"}
         return make_response(jsonify(result), 200, headers)
+    
+# ================= RESTful APIs Entrance =================
+@api.route('/entrance', methods=['GET', 'POST'])
+def entrance_route(id=None):
 
+    if request.method == 'GET':
+        entrances = EntranceLogController.getEntrancesLog()
+        headers = {"Content-Type": "application/json"}
+        if not entrances:
+            response = make_response( {"message": "No entrances found"}, 404, headers)
+        else:
+            response = make_response( jsonify([entrance.to_json() for entrance in entrances]), 200, headers )
+        return response
+
+    elif request.method == 'POST':
+        entrance_controller = EntranceLogController()
+        
+        result = EntranceLogController.createEntranceLog(
+            entrance_date=request.args.get('entrance_date'),
+            full_name=request.args.get('full_name'), 
+            card_id=request.args.get('card_id'), 
+            authorized=request.args.get('authorized')
+        )
+        
+        headers = {"Content-Type": "application/json"}
+        return make_response(jsonify(result), 200, headers)
 
 '''
 @api.route('/member/<int:id>', defaults={'id':None}, methods=['PUT'])

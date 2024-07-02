@@ -57,7 +57,26 @@ Use BCrypt module from Flask Extension
 2. CoAP tests
 3. Python script tests.
 
-# 3.1 How to attach Arduino to /dev/ttyACM0 in WSL
+## 3.2
+Testing the CoAP Server endpoint
+**CoRE Resource Discovery:** When a client discovers the list of resources hosted by a server, their attributes, and other link relations by accessing "/.well-known/core".
+
+Example request: `aiocoap-client coap://localhost:5683/.well-known/core`
+
+**Sending a GET request to a resource:**
+Example request: `aiocoap-client -m GET coap://localhost:5683/[RESOURCE-PATH]`
+
+**Sending a GET request to a resource with payload:**
+Example request: `aiocoap-client -m GET --payload "CONTENT" coap://localhost:5683/[RESOURCE-PATH]`
+
+**Sending a PUT request to an Observable resource with a payload:**
+Example request `aiocoap-client -m PUT --payload="2024-07-01 12:59:33,Marco,ZZYY,False" coap://localhost:5683/unauthorized`
+
+
+# 1. Getting started
+
+## 4.1 Attach Arduino to /dev/ttyACM0 in WSL
+**Important:** The USBIPD Utility use network drivers to attach devices to WSL. Check Firewall configuration or disable it.
 Run the Command Line with administrator privileges
 
 ```
@@ -164,6 +183,9 @@ CoAP Wireshark Packet Analyzer - [https://www.youtube.com/watch?v=RfCbpUYcjdc](h
 1. [Add authentication to your app with Flask-Login](https://www.digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login)
 2. [How to authenticate users in Flask](https://www.freecodecamp.org/news/how-to-authenticate-users-in-flask/)
 3. [How Flask-Login works](https://stackoverflow.com/questions/12075535/flask-login-cant-understand-how-it-works)
+
+### Flask-Requests
+1. [Retrieve data from request](https://stackoverflow.com/questions/10434599/get-the-data-received-in-a-flask-request)
 
 # Credits
 * Dr. Gianluca Carbone - Engineering and Computer Science student
