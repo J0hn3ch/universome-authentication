@@ -22,7 +22,8 @@ reading_thread = threading.Thread(target=reading, daemon=True)
 '''
 def serial_worker(debug=True):
     
-    global handshake
+    #global handshake
+    handshake = "" # uncomment if you run the script from PC with arduino attached with usbipd.
     
     # === SERIAL CONNECTION
     with serial.Serial(port='/dev/ttyACM0', 
