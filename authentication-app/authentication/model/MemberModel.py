@@ -32,7 +32,7 @@ class Member():
      
      @staticmethod
      def get_member(member_id=None, card_id=None):
-          print("MemberModel: get_member: id, card_id - ", member_id, type(member_id), card_id, type(card_id))
+          print("[DEBUG] - MemberModel: get_member: id, card_id - ", member_id, type(member_id), card_id, type(card_id))
           try:
                db = get_db()
                cur = db.cursor()
@@ -47,13 +47,13 @@ class Member():
                     records = cur.execute(query, [str(card_id)]).fetchall() #.fetchone()
                else:
                     query = "SELECT * FROM member WHERE id=(?)"
-                    print("MemberModel: query = ", str(member_id), type(str(member_id)))
+                    print("[DEBUG] - MemberModel: query = ", str(member_id), type(str(member_id)))
                     records = cur.execute(query, str(member_id)).fetchall()
 
                # Get all the records and make it a list of Member object to return
                members = list()
                for record in records:
-                    print("MemberModel: record[\'id\'] = ", record['id'], type(record['id']))
+                    print("[DEBUG] - MemberModel: record[\'id\'] = ", record['id'], type(record['id']))
                     member = Member(
                          id=int(record['id']),
                          full_name=record['full_name'],
@@ -64,7 +64,6 @@ class Member():
                          card_id=record['card_id']
                     )
                     members.append(member)
-                    print(member.__dict__)
 
                cur.close()
                return members
@@ -72,9 +71,9 @@ class Member():
      def create_member(self):
           try:
                db = get_db()
-               print("Connection established!")
+               print("[DEBUG] - Connection established!")
                cur = db.cursor()   
-               print("Cursor opened")
+               print("[DEBUG] - Cursor opened")
           except Exception as e:
                raise e
           else:

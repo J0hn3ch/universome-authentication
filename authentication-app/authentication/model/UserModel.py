@@ -30,21 +30,21 @@ class User(UserMixin):
 
      @staticmethod
      def get_user(username, hashed_password):
-          print("UserModel: get_user")
+          print("[DEBUG] - UserModel: get_user")
           user = None
           try:
                db = get_db()
                if db:
-                    print("UserModel: Database connection established!")
+                    print("[DEBUG] - UserModel: Database connection established!")
                cur = db.cursor()
                if cur:
-                    print("UserModel: Cursor obtained!")
+                    print("[DEBUG] - UserModel: Cursor obtained!")
                
                # Query execution
                query = "SELECT * FROM user WHERE username=(?) AND password=(?)"
                result = cur.execute(query, (username, hashed_password))
                if cur:
-                    print("UserModel: Query executed!")
+                    print("[DEBUG] - UserModel: Query executed!")
                record = result.fetchone()
 
                cur.close()
@@ -52,18 +52,17 @@ class User(UserMixin):
           except Exception as e:
                raise e
           else:
-               print(record)
                if record is None:
-                    print("UserModel: No user found")
+                    print("[DEBUG] - UserModel: No user found")
                     user = None
                else:
-                    print("UserModel: User found!")
+                    print("[DEBUG] - UserModel: User found!")
                     user = User(int(record[0]), record[1], record[2])
                return user
           
      @staticmethod
      def get_user_by_id(user_id):
-          print("UserModel: get_user_by_id")
+          print("[DEBUG] - UserModel: get_user_by_id")
           user = None
           try:
                db = get_db()

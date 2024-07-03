@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_cors import CORS
+from authentication.controller.CoapController import entranceObserverClient
 #from flask_bcrypt import Bcrypt
 import os
 from serial import Serial
@@ -12,7 +13,6 @@ from aiocoap import *
 
 #global DATABASE
 #DATABASE = os.path.join(app.instance_path, 'universome.sqlite')
-
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, static_folder='static', template_folder="templates", instance_relative_config=True)
@@ -80,5 +80,7 @@ def create_app(test_config=None):
 
     #from . import auth
     #app.register_blueprint(auth.bp)
-
+    # @app.after_request
+    # def after_request(response):
+    #     asyncio.run(entranceObserverClient())
     return app
