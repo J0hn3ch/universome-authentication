@@ -11,8 +11,6 @@ from aiocoap import *
 
 logging.basicConfig(level=logging.INFO)
 
-global handshake
-
 '''
 reading_event = threading.Thread.Event()
 def reading(serial):
@@ -23,7 +21,8 @@ def reading(serial):
 reading_thread = threading.Thread(target=reading, daemon=True)
 '''
 def serial_worker(debug=True):
-    handshake = "" # variable used to establish to start reading output from Arduino
+    
+    global handshake
     
     # === SERIAL CONNECTION
     with serial.Serial(port='/dev/ttyACM0', 
@@ -39,7 +38,6 @@ def serial_worker(debug=True):
         time.sleep(1)
         #ser.reset_input_buffer()
         #ser.flush()
-        print("[DEBUG] - Waiting for handshake.. ") if debug else None
         while True:
             #try:
             time.sleep(0.01)
@@ -47,10 +45,11 @@ def serial_worker(debug=True):
             while not handshake: # Skip initialization printing
                 time.sleep(0.01)
                 if ser.in_waiting > 0:
+                    print("[DEBUG] - Waiting for handshake.. ") if debug else None
                     message = ser.readline().decode(encoding='utf-8').rstrip()
                     if message == "H4NDSH4K3":
                         handshake = message
-                        print("Serial connection established: ", handshake)
+                        print("[DEBUG] - Serial connection established: ", handshake)
                 else:
                     ser.write("Hello\n".encode('utf-8'))
 
@@ -112,6 +111,8 @@ async def coap_request(uri, method="GET", log=""):
 
 # ====== { Main } ======
 if __name__ == "__main__":
+
+    handshake = "" # variable used to establish to start reading output from Arduino
 
     # 1. Listen for incoming Smart Card signal
     while True:
