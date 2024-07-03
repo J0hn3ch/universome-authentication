@@ -7,6 +7,9 @@
 ARG PYTHON_VERSION=3.10.13
 FROM python:${PYTHON_VERSION}-slim-bullseye as base
 
+RUN apt-get update \
+    && apt-get install -y build-essential
+
 # Prevents Python from writing pyc files.
 ENV PYTHONDONTWRITEBYTECODE=1
 
